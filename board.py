@@ -1,4 +1,5 @@
 import pieces
+import random
 
 DEFAULT_BOARD = "p rnbkqbnr pppppppp ........ ........ ........ ........ PPPPPPPP RNBKQBNR"
 
@@ -8,6 +9,7 @@ piece_dict = {"p": pieces.Pawn,
               "q": pieces.Queen,
               "n": pieces.Knight,
               "k": pieces.King}
+
 
 class ChessBoard:
     def __init__(self, board=DEFAULT_BOARD):
@@ -26,7 +28,7 @@ class ChessBoard:
         for i in range(len(self._board) - 1, -1, -1):
             row = ""
             row += top_border
-            row += str(i + 1)
+            row += str(i) ############################# change this to i - 1 for proper label
             for square in self._board[i]:
                 if square != ".":
                     row += " {} |".format(square)
@@ -41,6 +43,13 @@ class ChessBoard:
             bottom_border += "+-{}-".format(letter)
         bottom_border += "+\n"
         rows.append(bottom_border)
+
+        # delete this eventually
+        debug_border = ""
+        for i in range(8):
+            debug_border += "  {} ".format(i)
+        rows.append(debug_border)
+        #print(rows)
 
         return "\n".join(rows)
 
@@ -77,8 +86,10 @@ class ChessBoard:
             "computer cant have {} pieces".format(computer_pieces)
 
         # count kings
-        assert self._str_code.count("k") == 1, "player doesn't have a king"
-        assert self._str_code.count("K") == 1, "computer doesn't have a king"
+        assert self._str_code.count("k") == 1, \
+            "player has {} kings".format(self._str_code.count("k"))
+        assert self._str_code.count("K") == 1, \
+            "computer has {} kings".format(self._str_code.count("K"))
 
         return True
 
@@ -148,6 +159,10 @@ class ChessBoard:
         return ChessBoard(new_str)
 
     def calc_possible_moves(self):
+        """
+        Returns a list of valid chess moves for current player in form "a1 b2"
+        """
+
         possible_moves = []
         for r in range(len(self._board)):
             for c in range(len(self._board[r])):
@@ -163,15 +178,14 @@ class ChessBoard:
                             to = self._encode_inpt(*defender)
                             possible_moves.append("{} {}".format(frm, to))
 
-        print(possible_moves)
         return possible_moves
 
     def best_move(self, possible_moves):
         """
         Later will do more complicated things
         """
-        return possible_moves[0]
-
+        rand_move = random.randrange(len(possible_moves))
+        return possible_moves[rand_move]
 
     def on_board(self, row, col):
         """returns boolean for if the row, col are within the board"""
@@ -180,6 +194,95 @@ class ChessBoard:
         within_rows = 0 <= row < num_rows
         within_cols = 0 <= col < num_cols
         return within_rows and within_cols
+
+    def is_square_attacked(self, row, col):
+        """
+        Returns true is any enemy pieces are threatening this square.
+        :param row: int
+        :param col: int
+        :return: Boolean
+        """
+        # go in each direction, check pieces that could be attacking from that direction
+
+        # check 1 square distance for kings
+        for i in range(-1, 2):
+            for j in range(-1, 2):
+                attacker_row = row + i
+                attacker_col = col + j
+                if self.on_board(attacker_row, attacker_col)\
+                        and self.get_square(attacker_row, attacker_col).lower() == "k"\
+                        and self.is_enemy(attacker_row, attacker_col):
+                    return True
+
+        # check for pawns
+        if self._player_turn == "c":
+            attacker_row = row - 1
+        else:
+            attacker_row = row + 1
+        for i in (-1, 1):
+            attacker_col = col + i
+            if self.on_board(attacker_row, attacker_col) \
+                    and self.get_square(attacker_row, attacker_col).lower() == "p" \
+                    and self.is_enemy(attacker_row, attacker_col):
+                return True
+
+        # check for knights
+        for i in (-2, -1, 1, 2):
+            for j in (-2, -1, 1, 2):
+                if abs(i) != abs(j):
+                    attacker_row = row + i
+                    attacker_col = col + j
+                    if self.on_board(attacker_row, attacker_col)\
+                            and self.get_square(attacker_row, attacker_col).lower() == "n"\
+                            and self.is_enemy(attacker_row, attacker_col):
+                        return True
+
+        # check the horizontal
+        attacker_col = col
+        for i in (-1, 1):
+            attacker_row = row + i
+            while self.on_board(attacker_row, attacker_col):
+                if self.get_square(attacker_row, attacker_col).lower() in ("q", "r")\
+                        and self.is_enemy(attacker_row, attacker_col):
+                    return True
+                if self.get_square(attacker_row, attacker_col) != ".":
+                    break
+                attacker_row += i
+
+        # check the vertical
+        attacker_row = row
+        for i in (-1, 1):
+            attacker_col = col + i
+            while self.on_board(attacker_row, attacker_col):
+                if self.get_square(attacker_row, attacker_col).lower() in ("q", "r") \
+                        and self.is_enemy(attacker_row, attacker_col):
+                    return True
+                if self.get_square(attacker_row, attacker_col) != ".":
+                    break
+                attacker_col += i
+
+        # check diagonals
+        for i in (-1, 1):
+            for j in (-1, 1):
+                attacker_row = row + i
+                attacker_col = col + j
+                while self.on_board(attacker_row, attacker_col):
+                    if self.get_square(attacker_row, attacker_col).lower() in (
+                    "q", "b") and self.is_enemy(attacker_row, attacker_col):
+                        return True
+                    if self.get_square(attacker_row, attacker_col) != ".":
+                        break
+                    attacker_row += i
+                    attacker_col += j
+
+        return False
+
+    def is_enemy(self, row, col):
+        if self._player_turn == "p" and self._board[row][col].isupper():
+            return True
+        elif self._player_turn == "c" and self._board[row][col].islower():
+            return True
+        return False
 
     def _decode_inpt(self, inpt_str):
         """
