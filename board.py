@@ -3,7 +3,7 @@ import random
 import helper
 import pieces
 
-DEFAULT_BOARD = "p rnbkqbnr pppppppp ........ ........ ........ ........ PPPPPPPP RNBKQBNR"
+DEFAULT_BOARD = "1 rnbkqbnr pppppppp ........ ........ ........ ........ PPPPPPPP RNBKQBNR"
 
 piece_dict = {"p": pieces.Pawn,
               "r": pieces.Rook,
@@ -11,6 +11,9 @@ piece_dict = {"p": pieces.Pawn,
               "q": pieces.Queen,
               "n": pieces.Knight,
               "k": pieces.King}
+
+P1_CHAR = "1"
+P2_CHAR = "2"
 
 
 class ChessBoard:
@@ -70,7 +73,7 @@ class ChessBoard:
             assert len(row) == 8, "a row does not have 8 entries"
 
         # checks player turn is "r" or "b"
-        assert self._player_turn in ("p", "c"), "player turn: {} error".format(
+        assert self._player_turn in (P1_CHAR, P2_CHAR), "player turn: {} error".format(
                                                             self._player_turn)
 
         # checks all valid squares are valid characters
@@ -80,10 +83,10 @@ class ChessBoard:
                     "There is a {} in the grid".format(square)
 
         # check each player has between 0 and 12 pieces
-        player_pieces = self.get_piece_count("p")
+        player_pieces = self.get_piece_count(P1_CHAR)
         assert 0 < player_pieces <= 16, \
             "player cant have {} pieces".format(player_pieces)
-        computer_pieces = self.get_piece_count("c")
+        computer_pieces = self.get_piece_count(P2_CHAR)
         assert 0 < computer_pieces <= 16, \
             "computer cant have {} pieces".format(computer_pieces)
 
@@ -95,20 +98,20 @@ class ChessBoard:
 
         return True
 
-    def is_player_turn(self):
-        assert self._player_turn in ("p", "c")
-        return self._player_turn == "p"
+    def get_player_turn(self):
+        assert self._player_turn in ("1", "2")
+        return self._player_turn
 
     def get_square(self, row, col):
         return self._board[row][col]
 
     def get_piece_count(self, player):
-        assert player in ("p", "c"), "invalid player {}".format(player)
+        assert player in (P1_CHAR, P2_CHAR), "invalid player {}".format(player)
         piece_count = 0
         for char in self._str_code[2:]:
-            if player == "p" and char.islower():
+            if player == P1_CHAR and char.islower():
                 piece_count += 1
-            elif player == "c" and char.isupper():
+            elif player == P2_CHAR and char.isupper():
                 piece_count += 1
         return piece_count
 
@@ -151,11 +154,11 @@ class ChessBoard:
                 new_board.append(new_row)
 
         # flip players turn
-        assert self._player_turn in ("p", "c")
-        if self._player_turn == "p":
-            new_player_turn = "c"
+        assert self._player_turn in (P1_CHAR, P2_CHAR)
+        if self._player_turn == P1_CHAR:
+            new_player_turn = P2_CHAR
         else:
-            new_player_turn = "p"
+            new_player_turn = P1_CHAR
 
         new_str = new_player_turn + " " + " ".join(new_board)
         return ChessBoard(new_str)
@@ -175,8 +178,8 @@ class ChessBoard:
                 if piece_char != ".":
 
                     # checks if either can attack
-                    player_can_attack = self._player_turn == "p" and piece_char.islower()
-                    comp_can_attack = self._player_turn == "c" and self._board[r][c].isupper()
+                    player_can_attack = self._player_turn == P1_CHAR and piece_char.islower()
+                    comp_can_attack = self._player_turn == P2_CHAR and self._board[r][c].isupper()
 
                     # if piece can attack, make a piece object
                     if player_can_attack or comp_can_attack:
@@ -231,9 +234,9 @@ class ChessBoard:
         before_flip = self._player_turn
 
         if self._board[row][col].islower():
-            square_owner = "p"
+            square_owner = P1_CHAR
         elif self._board[row][col].isupper():
-            square_owner = "c"
+            square_owner = P2_CHAR
         else:
             square_owner = "unknown"
 
@@ -242,10 +245,10 @@ class ChessBoard:
         if square_owner != "unknown" and not static_player:
             if self._player_turn != square_owner:
                 player_flipped = True
-                if self._player_turn == "p":
-                    self._player_turn = "c"
+                if self._player_turn == P1_CHAR:
+                    self._player_turn = P2_CHAR
                 else:
-                    self._player_turn = "p"
+                    self._player_turn = P1_CHAR
 
         # go in each direction, check pieces that could be attacking from that direction
         is_attacked = False
@@ -263,7 +266,7 @@ class ChessBoard:
                         break
 
         # check for pawns
-        if self._player_turn == "c":
+        if self._player_turn == P2_CHAR:
             attacker_row = row - 1
         else:
             attacker_row = row + 1
@@ -330,10 +333,10 @@ class ChessBoard:
 
         # if player was flipped, flip it back
         if player_flipped:
-            if self._player_turn == "p":
-                self._player_turn = "c"
+            if self._player_turn == P1_CHAR:
+                self._player_turn = P2_CHAR
             else:
-                self._player_turn = "p"
+                self._player_turn = P1_CHAR
 
         after_flip = self._player_turn
         # self._player_turn could have been flipped but will always flip back
@@ -350,12 +353,12 @@ class ChessBoard:
         # king char is flipped from standard king
         # this is to test if you moved into check
         if flip_player:
-            if self._player_turn == "p":
+            if self._player_turn == P1_CHAR:
                 enemy_king = "k"
             else:
                 enemy_king = "K"
         else:
-            if self._player_turn == "p":
+            if self._player_turn == P1_CHAR:
                 enemy_king = "K"
             else:
                 enemy_king = "k"
@@ -377,9 +380,9 @@ class ChessBoard:
         :param col: int
         :return: Boolean
         """
-        if self._player_turn == "p" and self._board[row][col].isupper():
+        if self._player_turn == P1_CHAR and self._board[row][col].isupper():
             return True
-        elif self._player_turn == "c" and self._board[row][col].islower():
+        elif self._player_turn == P2_CHAR and self._board[row][col].islower():
             return True
         return False
 

@@ -5,7 +5,6 @@ from board import ChessBoard
 
 DEFAULT_BOARD = "rnbkqbnr pppppppp ........ ........ ........ ........ PPPPPPPP RNBKQBNR"
 
-### work in progress
 
 class ChessGame:
     def __init__(self, player1, player2, board=DEFAULT_BOARD, first_move=None):
@@ -13,63 +12,62 @@ class ChessGame:
         self._player2 = player2
 
         if first_move is None:
-            self._first_move = random.randint(0, 1)
+            self._first_move = random.randint(1, 2)
         else:
             self._first_move = first_move
 
         self._board = ChessBoard(str(self._first_move) + " " + board)
 
-    def play(self):
+    def get_player1(self):
+        return self._player1
 
+    def get_player2(self):
+        return self._player2
+
+    def get_other_player(self, player):
+        assert player in (self._player1, self._player2)
+        if player == self._player1:
+            return self._player2
+        else:
+            return self._player1
+
+    def play(self):
         board = self._board
         turn_number = 0
         while True:
-            print(board)
             turn_number += 1
-            if board.is_player_turn():
-                # player 1 turn
-                possible_moves = board.calc_possible_moves()
-                print("{} moves: {}".format(self._player1, possible_moves))
+            print(board)
 
-                is_in_check = board.is_attacking_king(flip_player=True)
-
-                # if no possible moves, game is over
-                if len(possible_moves) == 0:
-                    if is_in_check:
-                        # player got check mated
-                        winner = self._player2 # or opposite player
-                    else:
-                        # this is a draw
-                        winner = None
-                    break
-                else:
-                    if is_in_check:
-                        player1.in_check_message
-
-                board = board.do_move(player1.choose_move(board, possible_moves))
-
+            # determine whos turn it is
+            assert board.get_player_turn() in ("1", "2")
+            if board.get_player_turn() == "1":
+                player = self._player1
             else:
-                # player 2 turn
-                possible_moves = board.calc_possible_moves()
-                print("{} moves: {}".format(self._player2, possible_moves))
+                player = self._player2
 
-                is_in_check = board.is_attacking_king(flip_player=True)
+            # determine possible moves
+            possible_moves = board.calc_possible_moves()
+            print("{} moves: {}".format(player, possible_moves))
 
-                # if no possible moves, game is over
-                if len(possible_moves) == 0:
-                    if is_in_check:
-                        # computer got check mated
-                        winner = self._player1 # or opposite player
-                    else:
-                        # this is a draw
-                        winner = None
-                    break
+            is_in_check = board.is_attacking_king(flip_player=True)
+
+            # if no possible moves, game is over
+            if len(possible_moves) == 0:
+                if is_in_check:
+                    print("{} got check mated".format(player))
+                    other_player = self.get_other_player(player)
+                    other_player.increment_score()
+                    winner = other_player
                 else:
-                    if is_in_check:
-                        player2.in_check_message
+                    # this is a draw
+                    print("There was a draw!")
+                    winner = None
+                break
+            else:
+                if is_in_check:
+                    print("{} is in check".format(player))
 
-                computer_choice = board.best_move(possible_moves)
-                board = board.do_move(computer_choice)
+            board = board.do_move(player.choose_move(board, possible_moves))
 
         result = {"winner": winner,
                   "turns": turn_number,

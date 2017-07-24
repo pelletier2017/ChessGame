@@ -1,9 +1,12 @@
+P1_CHAR = "1"
+P2_CHAR = "2"
+
 
 class ChessPiece:
     def __init__(self, row, col, player):
         assert 0 <= row < 8
         assert 0 <= col < 8
-        assert player in ("p", "c"), "player must be 'p' or 'c'"
+        assert player in (P1_CHAR, P2_CHAR), "player: {} error".format(player)
 
         self._row = row
         self._col = col
@@ -17,7 +20,7 @@ class ChessPiece:
 
     def get_char(self):
         """returns single character representation of given chess piece on board"""
-        if self._player == "p":
+        if self._player == P1_CHAR:
             return self._char
         else:
             return self._char.upper()
@@ -31,9 +34,9 @@ class ChessPiece:
             defending_square = board.get_square(r2, c2)
             # able to attack,
             # not islower() is to account for "." being valid attack
-            if self._player == "p" and not defending_square.islower():
+            if self._player == P1_CHAR and not defending_square.islower():
                 return True
-            elif self._player == "c" and not defending_square.isupper():
+            elif self._player == P2_CHAR and not defending_square.isupper():
                 return True
         return False
 
@@ -51,7 +54,7 @@ class Pawn(ChessPiece):
         moves = {"attacker": (r1, c1), "defender": set()}
 
         # player pawn attack upward, comp pawns attack downward
-        if self._player == "p":
+        if self._player == P1_CHAR:
             direction = 1
         else:
             direction = -1
@@ -257,7 +260,7 @@ class King(ChessPiece):
                 r2 = r1 + i
                 c2 = c1 + j
                 if self.is_valid_attack(board, r2, c2) \
-                        and not board.is_square_attacked(r2, c2, static_player=True): ######################
+                        and not board.is_square_attacked(r2, c2, static_player=True):
                     moves["defender"].add((r2, c2))
                     assert (r1, c1) not in moves["defender"]
         return moves
