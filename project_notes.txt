@@ -1,0 +1,27 @@
+# TODO
+
+
+make unit tests before changing anything
+
+# essential bugs to fix first
+- fix Board.is_king_attacked(), doesn't work like intended
+
+- make moves into a set not a list, when removing moves that put king in danger, possible_moves - king_in_danger_moves
+-class restructure: player class, computer class, chess_game, etc
+-check_mate check (implement board.is_square_threatened
+-en passe
+-castle
+-when you move piece and your king is able to be attacked
+-put encode/decode board methods back into helper.py
+-add auto-test on bottom of each file linking to their test file in a test folder
+-check to see if unit tests can be shortened or made easier to modify
+- clean up Board.is_attacking_king(flipped=True) ugly logic
+- clean up Board.is_being_attacked, had to do ugly thing with modifying state
+  and the whole thing is redundant, should return after first is_attacked.
+  Ideally make it not have to modify state.
+- is_square_attacked is duct taped together modifying the state of the board
+
+edge cases to test:
+-kings helping with check-mate
+-castle body block2v
+-moving another piece which ends up putting your king in check

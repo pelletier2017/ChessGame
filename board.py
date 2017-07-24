@@ -161,22 +161,43 @@ class ChessBoard:
     def calc_possible_moves(self):
         """
         Returns a list of valid chess moves for current player in form "a1 b2"
+        :return: list of strings
         """
 
         possible_moves = []
+
+        # for each piece on the board
         for r in range(len(self._board)):
             for c in range(len(self._board[r])):
-                if self._board[r][c] != ".":
-                    player_can_attack = self._player_turn == "p" and self._board[r][c].islower()
+                piece_char = self._board[r][c]
+                if piece_char != ".":
+
+                    # checks if either can attack
+                    player_can_attack = self._player_turn == "p" and piece_char.islower()
                     comp_can_attack = self._player_turn == "c" and self._board[r][c].isupper()
-                    if (player_can_attack and self._player_turn == "p") or \
-                            (comp_can_attack and self._player_turn == "c"):
-                        piece = piece_dict[self._board[r][c].lower()](r, c, self._player_turn)
+
+                    # if piece can attack, make a piece object
+                    if player_can_attack or comp_can_attack:
+                        piece_class = piece_dict[piece_char.lower()]
+                        piece = piece_class(r, c, self._player_turn)
                         new_moves = piece.calc_moves(self)
+
+                        # add each pieces's moves into possible_moves
+                        # in the form "a1 b2"
                         for defender in new_moves["defender"]:
                             frm = self._encode_inpt(*new_moves["attacker"])
                             to = self._encode_inpt(*defender)
                             possible_moves.append("{} {}".format(frm, to))
+
+        print("Moves before filtering:", possible_moves)
+        # filter out any moves that would put the king in check
+        i = 0
+        while i < len(possible_moves):
+            possible_board = self.do_move(possible_moves[i])
+            if possible_board.is_attacking_king():
+                possible_moves.pop(i)
+            else:
+                i += 1
 
         return possible_moves
 
@@ -195,24 +216,50 @@ class ChessBoard:
         within_cols = 0 <= col < num_cols
         return within_rows and within_cols
 
-    def is_square_attacked(self, row, col):
+    def is_square_attacked(self, row, col, static_player=False):
         """
-        Returns true is any enemy pieces are threatening this square.
+        Returns true is any enemy pieces are threatening this square. 
+        Enemy pieces are opposite of current player's turn.
         :param row: int
         :param col: int
         :return: Boolean
         """
+
+        # temporarily flip self._player_turn to the same player
+        # as square being attacked
+        before_flip = self._player_turn
+
+        if self._board[row][col].islower():
+            square_owner = "p"
+        elif self._board[row][col].isupper():
+            square_owner = "c"
+        else:
+            square_owner = "unknown"
+
+        player_flipped = False
+        # if it is unknown, dont change anything
+        if square_owner != "unknown" and not static_player:
+            if self._player_turn != square_owner:
+                player_flipped = True
+                if self._player_turn == "p":
+                    self._player_turn = "c"
+                else:
+                    self._player_turn = "p"
+
         # go in each direction, check pieces that could be attacking from that direction
+        is_attacked = False
 
         # check 1 square distance for kings
         for i in range(-1, 2):
             for j in range(-1, 2):
-                attacker_row = row + i
-                attacker_col = col + j
-                if self.on_board(attacker_row, attacker_col)\
-                        and self.get_square(attacker_row, attacker_col).lower() == "k"\
-                        and self.is_enemy(attacker_row, attacker_col):
-                    return True
+                if not (i == 0 and j == 0):
+                    attacker_row = row + i
+                    attacker_col = col + j
+                    if self.on_board(attacker_row, attacker_col)\
+                            and self.get_square(attacker_row, attacker_col).lower() == "k"\
+                            and self.is_enemy(attacker_row, attacker_col):
+                        is_attacked = True
+                        break
 
         # check for pawns
         if self._player_turn == "c":
@@ -224,7 +271,8 @@ class ChessBoard:
             if self.on_board(attacker_row, attacker_col) \
                     and self.get_square(attacker_row, attacker_col).lower() == "p" \
                     and self.is_enemy(attacker_row, attacker_col):
-                return True
+                is_attacked = True
+                break
 
         # check for knights
         for i in (-2, -1, 1, 2):
@@ -235,7 +283,8 @@ class ChessBoard:
                     if self.on_board(attacker_row, attacker_col)\
                             and self.get_square(attacker_row, attacker_col).lower() == "n"\
                             and self.is_enemy(attacker_row, attacker_col):
-                        return True
+                        is_attacked = True
+                        break
 
         # check the horizontal
         attacker_col = col
@@ -244,7 +293,8 @@ class ChessBoard:
             while self.on_board(attacker_row, attacker_col):
                 if self.get_square(attacker_row, attacker_col).lower() in ("q", "r")\
                         and self.is_enemy(attacker_row, attacker_col):
-                    return True
+                    is_attacked = True
+                    break
                 if self.get_square(attacker_row, attacker_col) != ".":
                     break
                 attacker_row += i
@@ -256,7 +306,8 @@ class ChessBoard:
             while self.on_board(attacker_row, attacker_col):
                 if self.get_square(attacker_row, attacker_col).lower() in ("q", "r") \
                         and self.is_enemy(attacker_row, attacker_col):
-                    return True
+                    is_attacked = True
+                    break
                 if self.get_square(attacker_row, attacker_col) != ".":
                     break
                 attacker_col += i
@@ -269,15 +320,62 @@ class ChessBoard:
                 while self.on_board(attacker_row, attacker_col):
                     if self.get_square(attacker_row, attacker_col).lower() in (
                     "q", "b") and self.is_enemy(attacker_row, attacker_col):
-                        return True
+                        is_attacked = True
+                        break
                     if self.get_square(attacker_row, attacker_col) != ".":
                         break
                     attacker_row += i
                     attacker_col += j
 
-        return False
+        # if player was flipped, flip it back
+        if player_flipped:
+            if self._player_turn == "p":
+                self._player_turn = "c"
+            else:
+                self._player_turn = "p"
+
+        after_flip = self._player_turn
+        # self._player_turn could have been flipped but will always flip back
+        assert before_flip == after_flip
+
+        return is_attacked
+
+    def is_attacking_king(self, flip_player=False):
+        """
+        Returns True if the current player is threatening the enemy king.
+        :return: 
+        """
+
+        # king char is flipped from standard king
+        # this is to test if you moved into check
+        if flip_player:
+            if self._player_turn == "p":
+                enemy_king = "k"
+            else:
+                enemy_king = "K"
+        else:
+            if self._player_turn == "p":
+                enemy_king = "K"
+            else:
+                enemy_king = "k"
+
+        # find the king
+        for r in range(len(self._board)):
+            for c in range(len(self._board[r])):
+                if self._board[r][c] == enemy_king:
+                    king_row = r
+                    king_col = c
+
+        return self.is_square_attacked(king_row, king_col)
 
     def is_enemy(self, row, col):
+        """
+        Returns True if a given piece is one of your opponent's pieces 
+        according to who's turn it is currently.
+        :param row: int
+        :param col: int
+        :return: Boolean
+        """
         if self._player_turn == "p" and self._board[row][col].isupper():
             return True
         elif self._player_turn == "c" and self._board[row][col].islower():
@@ -312,9 +410,7 @@ def main():
     print(board)
     print(board.calc_possible_moves())
 
-    #new_board = board.do_move("h2 g3")
-    #print()
-    #print(new_board)
+
 
 if __name__ == "__main__":
     main()

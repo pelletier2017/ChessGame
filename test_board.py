@@ -81,6 +81,14 @@ class TestIsSquareAttacked(unittest.TestCase):
         # add tests for computer's turn
 
 
+class TestCalcPossibleMoves(unittest.TestCase):
+    def test_filtering_moves_that_threaten_king(self):
+        inpt_str = "p k....... b.P..... RP.K.... ........ ........ ........ ........ ........"
+        board = ChessBoard(inpt_str)
+        expected = ["a1 b2"]
+        self.assertEqual(board.calc_possible_moves(), expected)
+
+
 class TestIsEnemy(unittest.TestCase):
     def test_player_turn(self):
         inpt_str = "p k....... .p...... ...K.... .......Q ........ ........ ........ ........"
