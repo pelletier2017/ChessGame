@@ -1,18 +1,11 @@
 # TODO
-
-# last working on:
-- game.py play()
-- change player_turn to "1" and "2" everywhere
+- add doc strings to everything
 
 make unit tests before changing anything
 
 features
-- create ChessGame, and player classes
-  game = ChessGame(player1, player2, board="long board input")
-  basically things in main go into ChessGame.play() method
-  each player (whether computer or player) is passed into ChessGame when it starts
-
 - another class for series of games   some way to play 1000 games computer vs computer
+  Tournament(player1, player2, 100) plays 100 games
 
 
 features that come with object restructure:
@@ -23,8 +16,6 @@ features that come with object restructure:
 cleaning up code:
 - make chess piece class into a stub class that cant be called
 - rethink variable/method names
-- class restructure: player class, computer class, chess_game, etc
-- put encode/decode board methods back into helper.py
 - check to see if unit tests can be shortened or made easier to modify
 - clean up Board.is_attacking_king(flipped=True) ugly logic
 - clean up Board.is_being_attacked, had to do ugly thing with modifying state

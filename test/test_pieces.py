@@ -1,9 +1,7 @@
 import unittest
-from board import ChessBoard
-from pieces import Pawn, Rook, Queen, Bishop, Knight, King
 
-P1_CHAR = "1"
-P2_CHAR = "2"
+from chess.board import ChessBoard
+from chess.pieces import Pawn, Rook, Queen, Bishop, Knight, King, P1_CHAR, P2_CHAR
 
 
 class TestPawn(unittest.TestCase):

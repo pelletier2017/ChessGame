@@ -1,5 +1,6 @@
 import unittest
-from board import ChessBoard
+
+from chess.board import ChessBoard
 
 
 class TestIsSquareAttacked(unittest.TestCase):

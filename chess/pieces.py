@@ -1,7 +1,6 @@
 P1_CHAR = "1"
 P2_CHAR = "2"
 
-
 class ChessPiece:
     def __init__(self, row, col, player):
         assert 0 <= row < 8
@@ -265,6 +264,3 @@ class King(ChessPiece):
                     assert (r1, c1) not in moves["defender"]
         return moves
 
-
-if __name__ == "__main__":
-    import test_all

@@ -1,4 +1,5 @@
 from unittest import TestLoader, TextTestRunner, TestSuite
+
 import test_pieces
 import test_board
 

@@ -2,6 +2,7 @@ import random
 
 import helper
 import pieces
+from pieces import P1_CHAR, P2_CHAR
 
 DEFAULT_BOARD = "1 rnbkqbnr pppppppp ........ ........ ........ ........ PPPPPPPP RNBKQBNR"
 
@@ -11,9 +12,6 @@ piece_dict = {"p": pieces.Pawn,
               "q": pieces.Queen,
               "n": pieces.Knight,
               "k": pieces.King}
-
-P1_CHAR = "1"
-P2_CHAR = "2"
 
 
 class ChessBoard:
@@ -386,5 +384,3 @@ class ChessBoard:
             return True
         return False
 
-if __name__ == "__main__":
-    import test_all
