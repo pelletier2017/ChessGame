@@ -88,6 +88,36 @@ class TestCalcPossibleMoves(unittest.TestCase):
         expected = ["a1 b2"]
         self.assertEqual(board.calc_possible_moves(), expected)
 
+    def test_draw_no_moves(self):
+        inpt_str = "p k....... .R...... ..B..... ........ ........ ........ ........ ...K...."
+        board = ChessBoard(inpt_str)
+        expected = []
+        self.assertEqual(board.calc_possible_moves(), expected)
+
+    def test_player1_got_checkmated(self):
+        inpt_str = "p k....... .Q...... ..B..... ........ ........ ........ ........ ...K...."
+        board = ChessBoard(inpt_str)
+        expected = []
+        self.assertEqual(board.calc_possible_moves(), expected)
+
+    def test_player_in_check_king_takes(self):
+        inpt_str = "p k....... .Q...... ........ ........ r....... ........ ........ ...K...."
+        board = ChessBoard(inpt_str)
+        expected = ["a1 b2"]
+        self.assertEqual(board.calc_possible_moves(), expected)
+
+    def test_computer_in_check_king_takes(self):
+        inpt_str = "c K....... .q...... ........ ........ .....R.. ........ ........ ...k...."
+        board = ChessBoard(inpt_str)
+        expected = ["a1 b2"]
+        self.assertEqual(board.calc_possible_moves(), expected)
+
+    def test_computer_got_checkmated(self):
+        inpt_str = "c K....... .q...... ..b..... ........ ........ ........ ........ ...k...."
+        board = ChessBoard(inpt_str)
+        expected = []
+        self.assertEqual(board.calc_possible_moves(), expected)
+
 
 class TestIsEnemy(unittest.TestCase):
     def test_player_turn(self):

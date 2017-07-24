@@ -189,7 +189,6 @@ class ChessBoard:
                             to = self._encode_inpt(*defender)
                             possible_moves.append("{} {}".format(frm, to))
 
-        print("Moves before filtering:", possible_moves)
         # filter out any moves that would put the king in check
         i = 0
         while i < len(possible_moves):
@@ -405,12 +404,5 @@ class ChessBoard:
         return letter + num
 
 
-def main():
-    board = ChessBoard("p k....... .......p ........ ........ ........ ........ PPPPPPPP RNBKQBNR")
-    print(board)
-    print(board.calc_possible_moves())
-
-
-
 if __name__ == "__main__":
-    main()
+    import test_all

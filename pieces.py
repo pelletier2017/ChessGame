@@ -260,9 +260,8 @@ class King(ChessPiece):
                         and not board.is_square_attacked(r2, c2, static_player=True): ######################
                     moves["defender"].add((r2, c2))
                     assert (r1, c1) not in moves["defender"]
-        print("king moves:", moves)
         return moves
 
 
 if __name__ == "__main__":
-    import test_pieces
+    import test_all
