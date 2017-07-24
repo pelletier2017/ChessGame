@@ -1,0 +1,13 @@
+is attacking king
+- dealing with the current player changing every time a move is made.
+So looking for player in check vs making sure you cant put your king into
+check during a move.
+
+chess game class
+- separate logic that used to be in main
+
+player class
+- goal was computer vs computer 1000 games
+
+organizing tests
+- changing board effected pieces and vice versa, so test runner best option

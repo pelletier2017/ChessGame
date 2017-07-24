@@ -8,7 +8,6 @@ Import this file to run all tests
 
 loader = TestLoader()
 suite = TestSuite((
-    #loader.loadTestsFromTestCase(TestPawn),
     loader.loadTestsFromModule(test_pieces),
     loader.loadTestsFromModule(test_board)
     ))

@@ -1,5 +1,7 @@
-import pieces
 import random
+
+import helper
+import pieces
 
 DEFAULT_BOARD = "p rnbkqbnr pppppppp ........ ........ ........ ........ PPPPPPPP RNBKQBNR"
 
@@ -28,7 +30,7 @@ class ChessBoard:
         for i in range(len(self._board) - 1, -1, -1):
             row = ""
             row += top_border
-            row += str(i) ############################# change this to i - 1 for proper label
+            row += str(i + 1) ############################# change this to i - 1 for proper label
             for square in self._board[i]:
                 if square != ".":
                     row += " {} |".format(square)
@@ -120,8 +122,8 @@ class ChessBoard:
         assert frm[1] in "12345678", "frm number: {} not valid".format(frm[1])
         assert to[1] in "12345678", "to number: {} not valid".format(to[1])
 
-        decoded_frm = self._decode_inpt(frm)
-        decoded_to = self._decode_inpt(to)
+        decoded_frm = helper.decode_inpt(frm)
+        decoded_to = helper.decode_inpt(to)
         prev_board = self.__repr__().split()[1:]
 
         r1, c1 = decoded_frm
@@ -185,8 +187,8 @@ class ChessBoard:
                         # add each pieces's moves into possible_moves
                         # in the form "a1 b2"
                         for defender in new_moves["defender"]:
-                            frm = self._encode_inpt(*new_moves["attacker"])
-                            to = self._encode_inpt(*defender)
+                            frm = helper.encode_inpt(*new_moves["attacker"])
+                            to = helper.encode_inpt(*defender)
                             possible_moves.append("{} {}".format(frm, to))
 
         # filter out any moves that would put the king in check
@@ -380,29 +382,6 @@ class ChessBoard:
         elif self._player_turn == "c" and self._board[row][col].islower():
             return True
         return False
-
-    def _decode_inpt(self, inpt_str):
-        """
-        Converts given input string to row, col
-        params: inpt_str is a chess input, ex: "a1"
-        returns: tuple with integers row, col
-        precondition: letters are lower case between a-h, numbers are 1-8
-        """
-        letter, num = list(inpt_str)
-        row = int(num) - 1
-        col = ord(letter) - ord("a")
-        return row, col
-
-    def _encode_inpt(self, row, col):
-        """
-        Converts row, col to chess input, ex "a1"
-        params: row, col are integers
-        returns 2 char string for chess move with letter, number
-        """
-        num = str(row + 1)
-        letter = chr(col + ord("a"))
-        return letter + num
-
 
 if __name__ == "__main__":
     import test_all

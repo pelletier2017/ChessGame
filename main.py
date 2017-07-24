@@ -2,11 +2,15 @@ import time
 
 from board import ChessBoard
 
+
 def main():
     player_won = False
     computer_won = False
 
-    board = ChessBoard("p krb.q.n. .......p ........ ........ ........ ........ PPPPPPPP ...K....")
+    board = ChessBoard()
+
+    # interesting start
+    #board = ChessBoard("p krb.q.n. .......p ........ ........ ........ ........ PPPPPPPP ...K....")
 
     # rook able to kill pawn attacking king without forcing king to move
     #board = ChessBoard("p .rb.q.n. .......p ........ r....... .k...... P....... .PPPPPPP ...K....")
@@ -86,5 +90,4 @@ def main():
         print("Game ended in a draw.")
 
 if __name__ == "__main__":
-    import test_all
     main()
