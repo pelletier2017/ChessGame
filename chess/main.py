@@ -1,4 +1,4 @@
-import chess.player
+from chess import player
 from chess.game import ChessGame
 
 

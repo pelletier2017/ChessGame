@@ -1,9 +1,12 @@
+
+Things to remember
+- make unit tests before refactoring anything
+- change doc strings whenever code changes
+
+
 # TODO
-- add doc strings to everything
 - figure out why imports are inconsistent between pycharm and cmd prompt.
   Sometimes they change daily it seems.
-
-make unit tests before changing anything
 
 features
 - another class for series of games   some way to play 1000 games computer vs computer
