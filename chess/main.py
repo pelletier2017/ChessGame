@@ -1,5 +1,5 @@
-import player
-from game import ChessGame
+import chess.player
+from chess.game import ChessGame
 
 
 def main():

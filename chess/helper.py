@@ -1,9 +1,8 @@
 def decode_inpt(inpt_str):
     """
-    Converts given input string to row, col
-    params: inpt_str is a chess input, ex: "a1"
-    returns: tuple with integers row, col
-    precondition: letters are lower case between a-h, numbers are 1-8
+    Converts given chess piece string from form "a1" to integers row, col
+    :param inpt_str: string of length 2
+    :return: integers row, col
     """
     letter, num = list(inpt_str)
     row = int(num) - 1
@@ -13,9 +12,10 @@ def decode_inpt(inpt_str):
 
 def encode_inpt(row, col):
     """
-    Converts row, col to chess input, ex "a1"
-    params: row, col are integers
-    returns 2 char string for chess move with letter, number
+    Converts integers row, col to chess piece string in form "a1"
+    :param row: int
+    :param col: int
+    :return: string in form "a1"
     """
     num = str(row + 1)
     letter = chr(col + ord("a"))

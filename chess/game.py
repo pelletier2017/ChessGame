@@ -1,12 +1,15 @@
 import random
 
-from board import ChessBoard
+from chess.board import ChessBoard
 
 
 DEFAULT_BOARD = "rnbkqbnr pppppppp ........ ........ ........ ........ PPPPPPPP RNBKQBNR"
 
 
 class ChessGame:
+    """
+    Class representing a chess game played from start to finish.
+    """
     def __init__(self, player1, player2, board=DEFAULT_BOARD, first_move=None):
         self._player1 = player1
         self._player2 = player2

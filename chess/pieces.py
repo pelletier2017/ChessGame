@@ -1,7 +1,11 @@
 P1_CHAR = "1"
 P2_CHAR = "2"
 
+
 class ChessPiece:
+    """
+    This class is used entirely for inheretence for other chess piece classes.
+    """
     def __init__(self, row, col, player):
         assert 0 <= row < 8
         assert 0 <= col < 8
@@ -18,21 +22,43 @@ class ChessPiece:
         return "({} at {}, {})".format(self.__class__.__name__, self._row, self._col)
 
     def get_char(self):
-        """returns single character representation of given chess piece on board"""
+        """
+        Returns single character representation of given chess piece on board.
+        If the piece is owned by player1, it will be lowercase. Otherwise 
+        it will be uppercase.
+        :return: string of 1 letter
+        """
         if self._player == P1_CHAR:
             return self._char
         else:
             return self._char.upper()
 
     def is_moving(self, r2, c2):
-        """returns boolean for if target row, col are not both exactly the same as current row, col"""
+        """
+        Returns boolean for if target row, col are not both exactly the 
+        same as current row, col of the chess piece.
+        :param r2: int
+        :param c2: int
+        :return: Boolean
+        """
         return r2 != self._row or c2 != self._col
 
     def is_valid_attack(self, board, r2, c2):
+        """
+        Determines if an attack is valid based on a few criteria:
+        target square is on the board,
+        target square is not a king (of either side)
+        and the defending square is on the opposite team of the current square.
+        :param board: board object
+        :param r2: int
+        :param c2: int
+        :return: Boolean
+        """
         if board.on_board(r2, c2) and board.get_square(r2, c2).lower() != "k":
             defending_square = board.get_square(r2, c2)
-            # able to attack,
-            # not islower() is to account for "." being valid attack
+
+            # able to attack
+            # not islower() is used here to account for "." being valid attack
             if self._player == P1_CHAR and not defending_square.islower():
                 return True
             elif self._player == P2_CHAR and not defending_square.isupper():
@@ -46,7 +72,12 @@ class Pawn(ChessPiece):
         self._char = "p"
 
     def calc_moves(self, board):
-        """returns set of tuples in form (row, col) that are possible moves"""
+        """
+        returns a dictionary mapping "attacker" to a tuple indicating 
+        row and col of the attacking piece and a set of tuples indicating 
+        row and column of valid moves. This will include moves that put the 
+        king in check which will be filtered out later.
+        """
         r1 = self._row
         c1 = self._col
 
@@ -81,13 +112,83 @@ class Pawn(ChessPiece):
         return moves
 
 
+class Knight(ChessPiece):
+    def __init__(self, row, col, player):
+        ChessPiece.__init__(self, row, col, player)
+        self._char = "n"
+
+    def calc_moves(self, board):
+        """
+        returns a dictionary mapping "attacker" to a tuple indicating 
+        row and col of the attacking piece and a set of tuples indicating 
+        row and column of valid moves. This will include moves that put the 
+        king in check which will be filtered out later.
+        """
+        r1 = self._row
+        c1 = self._col
+
+        moves = {"attacker": (r1, c1), "defender": set()}
+
+        for i, j in ((1, 2), (2, 1)):
+            for i_sign in (-1, 1):
+                for j_sign in (-1, 1):
+                    r2 = r1 + (i * i_sign)
+                    c2 = c1 + (j * j_sign)
+                    assert i != j
+                    if self.is_valid_attack(board, r2, c2):
+                        moves["defender"].add((r2, c2))
+
+        return moves
+
+
+class Bishop(ChessPiece):
+    def __init__(self, row, col, player):
+        ChessPiece.__init__(self, row, col, player)
+        self._char = "b"
+
+    def calc_moves(self, board):
+        """
+        returns a dictionary mapping "attacker" to a tuple indicating 
+        row and col of the attacking piece and a set of tuples indicating 
+        row and column of valid moves. This will include moves that put the 
+        king in check which will be filtered out later.
+        """
+        r1 = self._row
+        c1 = self._col
+
+        moves = {"attacker": (r1, c1), "defender": set()}
+
+        # i and j are increments for r2 and c2 going in diagonal directions
+        for i in (-1, 1):
+            for j in (-1, 1):
+                r2 = r1 + i
+                c2 = c1 + j
+
+                while True:
+                    # go in this diagonal direction until hitting a piece
+                    if self.is_valid_attack(board, r2, c2):
+                        moves["defender"].add((r2, c2))
+                        if board.get_square(r2, c2) != ".":
+                            break
+                    else:
+                        break
+                    r2 += i
+                    c2 += j
+        return moves
+
+
 class Rook(ChessPiece):
     def __init__(self, row, col, player):
         ChessPiece.__init__(self, row, col, player)
         self._char = "r"
 
     def calc_moves(self, board):
-        """returns set of tuples in form (row, col) that are possible moves"""
+        """
+        returns a dictionary mapping "attacker" to a tuple indicating 
+        row and col of the attacking piece and a set of tuples indicating 
+        row and column of valid moves. This will include moves that put the 
+        king in check which will be filtered out later.
+        """
         r1 = self._row
         c1 = self._col
 
@@ -127,44 +228,18 @@ class Rook(ChessPiece):
         return moves
 
 
-class Bishop(ChessPiece):
-    def __init__(self, row, col, player):
-        ChessPiece.__init__(self, row, col, player)
-        self._char = "b"
-
-    def calc_moves(self, board):
-        """returns set of tuples in form (row, col) that are possible moves"""
-        r1 = self._row
-        c1 = self._col
-
-        moves = {"attacker": (r1, c1), "defender": set()}
-
-        # i and j are increments for r2 and c2 going in diagonal directions
-        for i in (-1, 1):
-            for j in (-1, 1):
-                r2 = r1 + i
-                c2 = c1 + j
-
-                while True:
-                    # go in this diagonal direction until hitting a piece
-                    if self.is_valid_attack(board, r2, c2):
-                        moves["defender"].add((r2, c2))
-                        if board.get_square(r2, c2) != ".":
-                            break
-                    else:
-                        break
-                    r2 += i
-                    c2 += j
-        return moves
-
-
 class Queen(ChessPiece):
     def __init__(self, row, col, player):
         ChessPiece.__init__(self, row, col, player)
         self._char = "q"
 
     def calc_moves(self, board):
-        """returns set of tuples in form (row, col) that are possible moves"""
+        """
+        returns a dictionary mapping "attacker" to a tuple indicating 
+        row and col of the attacking piece and a set of tuples indicating 
+        row and column of valid moves. This will include moves that put the 
+        king in check which will be filtered out later.
+        """
         r1 = self._row
         c1 = self._col
 
@@ -217,37 +292,18 @@ class Queen(ChessPiece):
         return moves
 
 
-class Knight(ChessPiece):
-    def __init__(self, row, col, player):
-        ChessPiece.__init__(self, row, col, player)
-        self._char = "n"
-
-    def calc_moves(self, board):
-        """returns set of tuples in form (row, col) that are possible moves"""
-        r1 = self._row
-        c1 = self._col
-
-        moves = {"attacker": (r1, c1), "defender": set()}
-
-        for i, j in ((1, 2), (2, 1)):
-            for i_sign in (-1, 1):
-                for j_sign in (-1, 1):
-                    r2 = r1 + (i * i_sign)
-                    c2 = c1 + (j * j_sign)
-                    assert i != j
-                    if self.is_valid_attack(board, r2, c2):
-                        moves["defender"].add((r2, c2))
-
-        return moves
-
-
 class King(ChessPiece):
     def __init__(self, row, col, player):
         ChessPiece.__init__(self, row, col, player)
         self._char = "k"
 
     def calc_moves(self, board):
-        """returns set of tuples in form (row, col) that are possible moves"""
+        """
+        returns a dictionary mapping "attacker" to a tuple indicating 
+        row and col of the attacking piece and a set of tuples indicating 
+        row and column of valid moves. This will include moves that put the 
+        king in check which will be filtered out later.
+        """
         r1 = self._row
         c1 = self._col
 

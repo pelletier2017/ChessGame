@@ -1,7 +1,7 @@
 is attacking king
 - dealing with the current player changing every time a move is made.
-So looking for player in check vs making sure you cant put your king into
-check during a move.
+  So looking for player in check vs making sure you cant put your king into
+  check during a move.
 
 chess game class
 - separate logic that used to be in main
@@ -11,3 +11,9 @@ player class
 
 organizing tests
 - changing board effected pieces and vice versa, so test runner best option
+
+imports were a pain in the butt
+- getting python packaging to work. It felt very inconsistent, sometimes
+  working on pycharm and sometimes on command prompt but not both.\
+- decided to put chess and tests into separate modules and import with
+  from chess.board import ChessBoard

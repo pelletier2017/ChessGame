@@ -1,8 +1,8 @@
 import random
 
-import helper
-import pieces
-from pieces import P1_CHAR, P2_CHAR
+from chess import helper
+from chess import pieces
+from chess.pieces import P1_CHAR, P2_CHAR
 
 DEFAULT_BOARD = "1 rnbkqbnr pppppppp ........ ........ ........ ........ PPPPPPPP RNBKQBNR"
 
@@ -63,7 +63,7 @@ class ChessBoard:
         """
         Goes through a series of asserts to verify the Board object is
         working properly
-        returns: True if all tests pass, otherwise None
+        returns: True if all tests pass, otherwise raises assertion errors
         """
         # checks if board is 8x8
         assert len(self._board) == 8, "board does not have 8 rows"
@@ -97,13 +97,29 @@ class ChessBoard:
         return True
 
     def get_player_turn(self):
+        """
+        Gets the string representation of the player who's turn it is.
+        :return: string of 1 number either "1" or "2" for player 1 or player 2
+        """
         assert self._player_turn in ("1", "2")
         return self._player_turn
 
     def get_square(self, row, col):
+        """
+        Gets the string representation of a piece at given row and col 
+        on the board.
+        :param row: int
+        :param col: int
+        :return: string of one letter
+        """
         return self._board[row][col]
 
     def get_piece_count(self, player):
+        """
+        Counts the number of pieces for a given player.
+        :param player: a string representing the player "1" or "2"
+        :return: number of pieces as an int
+        """
         assert player in (P1_CHAR, P2_CHAR), "invalid player {}".format(player)
         piece_count = 0
         for char in self._str_code[2:]:
@@ -114,6 +130,12 @@ class ChessBoard:
         return piece_count
 
     def do_move(self, move):
+        """
+        Returns a board that is made by performing a given move on the 
+        current board. This makes no changes to the current board.
+        :param move: a chess move in the form "a1 b2"
+        :return: board object
+        """
         frm, to = move.split()
         assert self.sanity_check()
         assert len(frm) == 2 and len(to) == 2, "invalid inputs: {} {}" \
@@ -203,15 +225,13 @@ class ChessBoard:
 
         return possible_moves
 
-    def best_move(self, possible_moves):
-        """
-        Later will do more complicated things
-        """
-        rand_move = random.randrange(len(possible_moves))
-        return possible_moves[rand_move]
-
     def on_board(self, row, col):
-        """returns boolean for if the row, col are within the board"""
+        """
+        Returns boolean for if row and column are within the board
+        :param row: int
+        :param col: int
+        :return: Boolean
+        """
         num_rows = len(self._board)
         num_cols = len(self._board[0])
         within_rows = 0 <= row < num_rows
@@ -221,9 +241,12 @@ class ChessBoard:
     def is_square_attacked(self, row, col, static_player=False):
         """
         Returns true is any enemy pieces are threatening this square. 
-        Enemy pieces are opposite of current player's turn.
+        Enemy pieces are opposite of current player's turn. If static_player is 
+        set to true, the current player on the board will not change depending 
+        which piece is checked.
         :param row: int
         :param col: int
+        :param static_player: Boolean
         :return: Boolean
         """
 
@@ -288,7 +311,7 @@ class ChessBoard:
                         is_attacked = True
                         break
 
-        # check the horizontal
+        # check horizontal for queens/rooks
         attacker_col = col
         for i in (-1, 1):
             attacker_row = row + i
@@ -301,7 +324,7 @@ class ChessBoard:
                     break
                 attacker_row += i
 
-        # check the vertical
+        # check vertical for queens/rooks
         attacker_row = row
         for i in (-1, 1):
             attacker_col = col + i
@@ -314,7 +337,7 @@ class ChessBoard:
                     break
                 attacker_col += i
 
-        # check diagonals
+        # check diagonals for queens/bishops
         for i in (-1, 1):
             for j in (-1, 1):
                 attacker_row = row + i
@@ -336,16 +359,18 @@ class ChessBoard:
             else:
                 self._player_turn = P1_CHAR
 
-        after_flip = self._player_turn
         # self._player_turn could have been flipped but will always flip back
-        assert before_flip == after_flip
+        after_flip = self._player_turn
+        assert after_flip == before_flip
 
         return is_attacked
 
     def is_attacking_king(self, flip_player=False):
         """
         Returns True if the current player is threatening the enemy king.
-        :return: 
+        :param flip_player: If True, searches for if current player king is 
+               being attacked by the enemy/
+        :return: Boolean
         """
 
         # king char is flipped from standard king

@@ -1,11 +1,19 @@
 # TODO
 - add doc strings to everything
+- figure out why imports are inconsistent between pycharm and cmd prompt.
+  Sometimes they change daily it seems.
 
 make unit tests before changing anything
 
 features
 - another class for series of games   some way to play 1000 games computer vs computer
   Tournament(player1, player2, 100) plays 100 games
+- board evaluate method
+- minimax AI to choose move
+- player class DNA/gene pool class that includes many players,
+  it can have method called play_games(100) or next_generation()
+- for computation heavy parts of the project use python -O main.py (-O or -OO)
+  to prevent assertion and hopefully speed things up.
 
 
 features that come with object restructure:
@@ -14,6 +22,8 @@ features that come with object restructure:
 - castle, have to keep track of if king ever moved, or if rook ever moved
 
 cleaning up code:
+- flip player turn method? Its used quite a bit.
+- break apart is_square_attacked, its 120 lines long and easy to break apart
 - make chess piece class into a stub class that cant be called
 - rethink variable/method names
 - check to see if unit tests can be shortened or made easier to modify
@@ -33,3 +43,6 @@ edge cases to test:
 
 Things to consider:
 - should both ChessGame and ChessBoard have default board?
+  board should be able to go to any state on the board,
+  game should be playing a game where the person who goes first could be chosen
+  therefore, chess board should have default board and chess game decides who goes first
