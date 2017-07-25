@@ -17,6 +17,12 @@ class Player:
 
 class RandomComputer(Player):
     def choose_move(self, board, possible_moves):
+        """
+        Chooses a random move out of possible_moves
+        :param board: board object
+        :param possible_moves: list of strings representing moves
+        :return: string in form "a1 b2"
+        """
         random_move = random.randrange(len(possible_moves))
         time.sleep(self._pause)
         return possible_moves[random_move]
@@ -24,6 +30,12 @@ class RandomComputer(Player):
 
 class MinimaxComputer(Player):
     def choose_move(self, board, possible_moves):
+        """
+        Chooses best move based on looking at list of moves and picking the best.
+        :param board: board object
+        :param possible_moves: list of strings representing moves
+        :return: string in form "a1 b2"
+        """
         best_score = board.do_move(possible_moves[0]).evaluate() * -1
         best_moves = [possible_moves[0]]
         for i in range(1, len(possible_moves)):
@@ -42,6 +54,13 @@ class MinimaxComputer(Player):
 
 class Human(Player):
     def choose_move(self, board, possible_moves):
+        """
+        Asks the user for a move, if the move is not in the list of possible 
+        moves then it asks the user for another move.
+        :param board: board object
+        :param possible_moves: list of strings representing moves
+        :return: string in form "a1 b2"
+        """
         player_choice = input("choose your move: ")
 
         while player_choice not in possible_moves:

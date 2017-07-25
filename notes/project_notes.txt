@@ -7,6 +7,7 @@ Things to remember
 # TODO
 - figure out why imports are inconsistent between pycharm and cmd prompt.
   Sometimes they change daily it seems.
+- write tests for evaluate and has_no_moves
 
 features
 - another class for series of games   some way to play 1000 games computer vs computer
@@ -17,7 +18,9 @@ features
   it can have method called play_games(100) or next_generation()
 - for computation heavy parts of the project use python -O main.py (-O or -OO)
   to prevent assertion and hopefully speed things up.
-
+- evaluate function may have to calculate a few moves, if there is at least one
+  move, then the player is not checkmated or a draw. A draw is good for a player
+  if he has fewer pieces.
 
 features that come with object restructure:
 - en passant, complicated may have to make chess board keep piece objects.
@@ -50,7 +53,7 @@ Things to consider:
   board should be able to go to any state on the board,
   game should be playing a game where the person who goes first could be chosen
   therefore, chess board should have default board and chess game decides who goes first
-- only print board for player right before they move? maybe a default
-  parameter that you can use to see computer's board
 - for board evaluation, should king be counted? Should it be 1000?
 - how to choose what type of AI in the client code
+
+room for optimization:

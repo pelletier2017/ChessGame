@@ -231,6 +231,65 @@ class TestDoMove(unittest.TestCase):
             pass
 
 
+class TestEvaluate(unittest.TestCase):
+    def test_player1_checkmated(self):
+        inpt_str = "1 k....... .Q...... .R...... ........ ........ ........ ........ .......K"
+        board = ChessBoard(inpt_str)
+        self.assertEqual(board.evaluate(), -1000)
+
+    def test_player2_checkmated(self):
+        inpt_str = "2 K....... .q...... .r...... ........ ........ ........ ........ .......k"
+        board = ChessBoard(inpt_str)
+        self.assertEqual(board.evaluate(), -1000)
+
+    def test_player1_draw(self):
+        inpt_str = "1 k....... .R...... .R...... ........ ........ ........ ........ .......K"
+        board = ChessBoard(inpt_str)
+        self.assertEqual(board.evaluate(), 1000)
+
+    def test_player2_draw(self):
+        inpt_str = "2 K....... .r...... .r...... ........ ........ ........ ........ .......k"
+        board = ChessBoard(inpt_str)
+        self.assertEqual(board.evaluate(), 1000)
+
+    def test_normal_board(self):
+        inpt_str = "1 k....... ........ r....... R....... ........ ........ ........ .......K"
+        board = ChessBoard(inpt_str)
+        self.assertEqual(board.evaluate(), 0)
+
+        inpt_str = "1 k....... b...b..n r....... R....... ...Q.... ........ ........ .......K"
+        board2 = ChessBoard(inpt_str)
+        self.assertEqual(board2.evaluate(), 0)
+
+
+class TestHasNoMoves(unittest.TestCase):
+    def test_player1_checkmated(self):
+        inpt_str = "1 k....... .Q...... .R...... ........ ........ ........ ........ .......K"
+        board = ChessBoard(inpt_str)
+        self.assertTrue(board.has_no_moves())
+
+    def test_player1_draw(self):
+        inpt_str = "1 k....... .R...... .R...... ........ ........ ........ ........ .......K"
+        board = ChessBoard(inpt_str)
+        self.assertTrue(board.has_no_moves())
+
+    def test_player1_in_check(self):
+        inpt_str = "1 k....... .Q...... ........ ........ ........ ........ ........ .......K"
+        board = ChessBoard(inpt_str)
+        self.assertFalse(board.has_no_moves())
+
+    def test_player1_in_check_alternate(self):
+        inpt_str = "1 k....... .Q...r.. .R...... ........ ........ ........ ........ .......K"
+        board = ChessBoard(inpt_str)
+        print(board)
+        self.assertFalse(board.has_no_moves())
+
+    def test_normal_board(self):
+        inpt_str = "1 k....... ........ r....... R....... ........ ........ ........ .......K"
+        board = ChessBoard(inpt_str)
+        self.assertFalse(board.has_no_moves())
+
+
 
 
 if __name__ == "__main__":

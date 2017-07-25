@@ -44,13 +44,14 @@ class ChessBoard:
         bottom_border = ""
         for letter in letters:
             bottom_border += "+-{}-".format(letter)
-        bottom_border += "+\n"
+        bottom_border += "+"
         rows.append(bottom_border)
 
         # delete this eventually
         debug_border = ""
         for i in range(8):
             debug_border += "  {} ".format(i)
+        debug_border += "\n"
         rows.append(debug_border)
         #print(rows)
 
@@ -214,7 +215,7 @@ class ChessBoard:
                       "b": 3,
                       "r": 5,
                       "q": 9,
-                      "k": 1000}
+                      "k": 0}
         p1_score = 0
         p2_score = 0
         for row in self._board:
@@ -224,10 +225,28 @@ class ChessBoard:
                 elif square.isupper():
                     p2_score += score_dict[square.lower()]
 
+        score = p1_score - p2_score
+
+        if self.has_no_moves():
+            if self.is_attacking_king(flip_player=True):  # sure its flipped=True?
+                # its a checkmate
+                if self._player_turn == P1_CHAR:
+                    score = -1000
+                else:
+                    score = 1000
+            else:
+                # its a draw
+                if score > 0:
+                    # player1 is ahead in score and does NOT want to draw
+                    score = -1000
+                else:
+                    # player1 is behind in score and DOES want to draw
+                    score = 1000
+
         if self._player_turn == P1_CHAR:
-            return p1_score - p2_score
+            return score
         else:
-            return p2_score - p1_score
+            return score * -1
 
     def calc_possible_moves(self):
         """
@@ -270,6 +289,41 @@ class ChessBoard:
                 i += 1
 
         return possible_moves
+
+    def has_no_moves(self):
+        """
+        Returns True if the current player has no valid moves. Moves that put 
+        their king in check are not considered valid moves.
+        :return: Boolean
+        """
+        # for each piece on the board
+        for r in range(len(self._board)):
+            for c in range(len(self._board[r])):
+                piece_char = self._board[r][c]
+                if piece_char != ".":
+
+                    # checks if either can attack
+                    player_can_attack = self._player_turn == P1_CHAR and piece_char.islower()
+                    comp_can_attack = self._player_turn == P2_CHAR and \
+                                      self._board[r][c].isupper()
+
+                    # if piece can attack, make a piece object
+                    if player_can_attack or comp_can_attack:
+                        piece_class = piece_dict[piece_char.lower()]
+                        piece = piece_class(r, c, self._player_turn)
+                        new_moves = piece.calc_moves(self)
+
+                        # add each pieces's moves into possible_moves
+                        # in the form "a1 b2"
+
+                        for defender in new_moves["defender"]:
+                            frm = helper.encode_inpt(*new_moves["attacker"])
+                            to = helper.encode_inpt(*defender)
+                            move = "{} {}".format(frm, to)
+                            possible_board = self.do_move(move)
+                            if not possible_board.is_attacking_king():
+                                return False
+        return True
 
     def on_board(self, row, col):
         """
