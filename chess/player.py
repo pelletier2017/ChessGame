@@ -25,16 +25,19 @@ class RandomComputer(Player):
 class MinimaxComputer(Player):
     def choose_move(self, board, possible_moves):
         best_score = board.do_move(possible_moves[0]).evaluate() * -1
-        best_move = possible_moves[0]
+        best_moves = [possible_moves[0]]
         for i in range(1, len(possible_moves)):
             score = board.do_move(possible_moves[i]).evaluate() * -1
-            #print(score, possible_moves[i])
             if score > best_score:
                 best_score = score
-                best_move = possible_moves[i]
+                best_moves = [possible_moves[i]]
+            if score == best_score:
+                best_moves.append(possible_moves[i])
+
+        random_move = random.randrange(len(best_moves))
 
         time.sleep(self._pause)
-        return best_move
+        return best_moves[random_move]
 
 
 class Human(Player):

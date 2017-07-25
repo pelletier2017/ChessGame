@@ -138,5 +138,100 @@ class TestIsEnemy(unittest.TestCase):
         self.assertTrue(board.is_enemy(1, 1))
 
 
+class TestDoMove(unittest.TestCase):
+    def test_king_takes(self):
+        inpt_str = "1 k....... .P...... ...K.... .......Q ........ ........ ........ ........"
+        board = ChessBoard(inpt_str)
+        new_board = board.do_move("a1 b2")
+        self.assertEqual(new_board.get_square(1, 1), "k")
+        self.assertEqual(new_board.get_square(0, 0), ".")
+
+    def test_multiple_moves(self):
+        inpt_str = "1 q.p....k .P...... .R.K.... .......Q ........ ........ ........ ........"
+        board = ChessBoard(inpt_str)
+        self.assertEqual(board.get_square(1, 1), "P")
+        self.assertEqual(board.get_square(0, 0), "q")
+        self.assertEqual(board.get_square(0, 2), "p")
+        self.assertEqual(board.get_square(2, 1), "R")
+
+        board2 = board.do_move("a1 b2")
+        board3 = board2.do_move("b3 b2")
+        board4 = board3.do_move("c1 b2")
+
+        self.assertEqual(board4.get_square(1, 1), "p")
+        self.assertEqual(board4.get_square(0, 0), ".")
+        self.assertEqual(board4.get_square(0, 2), ".")
+        self.assertEqual(board4.get_square(2, 1), ".")
+
+    def test_upgrading_pawn(self):
+        inpt_str = "1 q.p....k .P...P.. .R.K.... .......Q ........ ........ .......p ........"
+        board = ChessBoard(inpt_str)
+        self.assertEqual(board.get_square(6, 7), "p")
+        self.assertEqual(board.get_square(7, 7), ".")
+        self.assertEqual(board.get_square(1, 5), "P")
+
+        board2 = board.do_move("h7 h8")
+        self.assertEqual(board2.get_square(6, 7), ".")
+        self.assertEqual(board2.get_square(7, 7), "q")
+
+        board3 = board2.do_move("f2 f1")
+        self.assertEqual(board3.get_square(1, 5), ".")
+        self.assertEqual(board3.get_square(0, 5), "Q")
+
+    def test_moving_off_board(self):
+        inpt_str = "2 q.p....k .P...... .R.K.... .......Q ........ ........ ........ r......."
+        board = ChessBoard(inpt_str)
+        try:
+            board2 = board.do_move("a8 a9")
+            self.assert_(False)
+        except AssertionError:
+            pass
+
+    def test_invalid_inputs(self):
+        pass
+
+    def test_piece_invalid_move(self):
+        # do_move doesn't care about how far pieces move
+        inpt_str = "2 q.p....k .P...... .R.K.... .......Q ........ ........ ........ ........"
+        board = ChessBoard(inpt_str)
+        self.assertEqual(board.get_square(2, 1), "R")
+        self.assertEqual(board.get_square(1, 1), "P")
+
+    def test_moving_out_of_turn(self):
+        inpt_str = "2 q.p....k .P...... .R.K.... .......Q ........ ........ ........ ........"
+        board = ChessBoard(inpt_str)
+        try:
+            board2 = board.do_move("a1 b2")
+            self.assert_(False)
+        except AssertionError:
+            pass
+
+    def test_attacking_with_empty_square(self):
+        inpt_str = "1 ..p....k .P...... .R.K.... .......Q ........ ........ ........ ........"
+        board = ChessBoard(inpt_str)
+        try:
+            board2 = board.do_move("a1 a2")
+            self.assert_(False)
+        except AssertionError:
+            pass
+
+        try:
+            board2 = board.do_move("a1 b2")
+            self.assert_(False)
+        except AssertionError:
+            pass
+
+    def test_taking_own_piece(self):
+        inpt_str = "2 q.p....k .P...... .R.K.... .......Q ........ ........ ........ ........"
+        board = ChessBoard(inpt_str)
+        try:
+            board2 = board.do_move("b3 b2")
+            self.assert_(False)
+        except AssertionError:
+            pass
+
+
+
+
 if __name__ == "__main__":
     unittest.main()

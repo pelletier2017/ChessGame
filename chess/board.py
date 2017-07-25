@@ -148,13 +148,25 @@ class ChessBoard:
         decoded_frm = helper.decode_inpt(frm)
         decoded_to = helper.decode_inpt(to)
         prev_board = self.__repr__().split()[1:]
+        assert len(prev_board) == 8, "len of prev board should now be 8"
 
         r1, c1 = decoded_frm
         r2, c2 = decoded_to
 
         attacking_piece = self._board[r1][c1]
+        defending_piece = self._board[r2][c2]
 
-        assert len(prev_board) == 8, "len of prev board should now be 8"
+        if self._player_turn == P1_CHAR:
+            assert attacking_piece.islower(), "Error can't attack with this. " \
+             "Current player: {}. attacking_piece: {}".format(self._player_turn, attacking_piece)
+            assert not defending_piece.islower(), "Error can't attack with this. " \
+             "Current player: {}. defending piece: {}".format(self._player_turn, defending_piece)
+
+        elif self._player_turn == P2_CHAR:
+            assert attacking_piece.isupper(), "Error can't attack with this. " \
+             "Current player: {}. attacking_piece: {}".format(self._player_turn, attacking_piece)
+            assert not defending_piece.isupper(), "Error can't attack with this. " \
+             "Current player: {}. defending piece: {}".format(self._player_turn, defending_piece)
 
         # now make new board while changing pieces
         new_board = []
@@ -168,7 +180,13 @@ class ChessBoard:
                     if r == r1 and c == c1:
                         new_row += "."
                     elif r == r2 and c == c2:
-                        new_row += attacking_piece
+                        # upgrades pawns to queens if they reach the last row
+                        if attacking_piece == "p" and r2 == 7:
+                            new_row += "q"
+                        elif attacking_piece == "P" and r2 == 0:
+                            new_row += "Q"
+                        else:
+                            new_row += attacking_piece
                     else:
                         new_row += prev_board[r][c]
                 new_board.append(new_row)
