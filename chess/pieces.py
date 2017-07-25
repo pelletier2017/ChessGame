@@ -16,7 +16,6 @@ class ChessPiece:
         self._player = player
 
         self._char = "?"
-        self._possible_moves = set()
 
     def __str__(self):
         return "({} at {}, {})".format(self.__class__.__name__, self._row, self._col)

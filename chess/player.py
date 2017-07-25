@@ -3,8 +3,9 @@ import time
 
 
 class Player:
-    def __init__(self, name):
+    def __init__(self, name, pause=0.5):
         self._name = name
+        self._pause = pause
         self._games_won = 0
 
     def __str__(self):
@@ -14,11 +15,26 @@ class Player:
         self._games_won += 1
 
 
-class Computer(Player):
+class RandomComputer(Player):
     def choose_move(self, board, possible_moves):
         random_move = random.randrange(len(possible_moves))
-        time.sleep(0.5)
+        time.sleep(self._pause)
         return possible_moves[random_move]
+
+
+class MinimaxComputer(Player):
+    def choose_move(self, board, possible_moves):
+        best_score = board.do_move(possible_moves[0]).evaluate() * -1
+        best_move = possible_moves[0]
+        for i in range(1, len(possible_moves)):
+            score = board.do_move(possible_moves[i]).evaluate() * -1
+            #print(score, possible_moves[i])
+            if score > best_score:
+                best_score = score
+                best_move = possible_moves[i]
+
+        time.sleep(self._pause)
+        return best_move
 
 
 class Human(Player):

@@ -183,6 +183,34 @@ class ChessBoard:
         new_str = new_player_turn + " " + " ".join(new_board)
         return ChessBoard(new_str)
 
+    def evaluate(self):
+        """
+        Evaluates current board state by adding up each player's pieces and 
+        each piece has a weight. The value returned is current player's score 
+        subtracted by the opposite players score. If current player is ahead 
+        the score will be positive.
+        :return: int
+        """
+        score_dict = {"p": 1,
+                      "n": 3,
+                      "b": 3,
+                      "r": 5,
+                      "q": 9,
+                      "k": 1000}
+        p1_score = 0
+        p2_score = 0
+        for row in self._board:
+            for square in row:
+                if square.islower():
+                    p1_score += score_dict[square.lower()]
+                elif square.isupper():
+                    p2_score += score_dict[square.lower()]
+
+        if self._player_turn == P1_CHAR:
+            return p1_score - p2_score
+        else:
+            return p2_score - p1_score
+
     def calc_possible_moves(self):
         """
         Returns a list of valid chess moves for current player in form "a1 b2"

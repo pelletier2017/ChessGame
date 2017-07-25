@@ -37,6 +37,7 @@ cleaning up code:
 - is_square_attacked is duct taped together modifying the state of the board
 - make moves into a set not a list, when removing moves that put king in danger, possible_moves - king_in_danger_moves
   could take a long time with not much benefit
+- remove things from board.py if possible, its very long
 
 edge cases to test:
 - kings helping with check-mate
@@ -49,3 +50,7 @@ Things to consider:
   board should be able to go to any state on the board,
   game should be playing a game where the person who goes first could be chosen
   therefore, chess board should have default board and chess game decides who goes first
+- only print board for player right before they move? maybe a default
+  parameter that you can use to see computer's board
+- for board evaluation, should king be counted? Should it be 1000?
+- how to choose what type of AI in the client code
