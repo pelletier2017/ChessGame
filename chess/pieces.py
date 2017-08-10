@@ -2,7 +2,7 @@ P1_CHAR = "1"
 P2_CHAR = "2"
 
 
-class ChessPiece:
+class ChessPiece():
     """
     This class is used entirely for inheretence for other chess piece classes.
     """

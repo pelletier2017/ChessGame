@@ -2,51 +2,51 @@
 Things to remember
 - make unit tests before refactoring anything
 - change doc strings whenever code changes
-
+- Pep8 and currently use " " rather than ' '
 
 # TODO
-- figure out why imports are inconsistent between pycharm and cmd prompt.
-  Sometimes they change daily it seems.
-- write tests for evaluate and has_no_moves
+- Work on extending minimax to do variable depth.
 
 features
+- optional parameter for print_board=True to be changed when you want to run
+  games very quickly. Probably on the game class, maybe on the player class.
+- write a draw condition if both players cannot checkmate each other in X turns.
+  Official chess rules should cover how to call a draw.
 - another class for series of games   some way to play 1000 games computer vs computer
   Tournament(player1, player2, 100) plays 100 games
-- board evaluate method
-- minimax AI to choose move
+- As part of score evaluation, calculate # of pieces a player is attacking.
+  This costs a lot of computation, but can be used for a good tie breaker for
+  equal score values.
 - player class DNA/gene pool class that includes many players,
   it can have method called play_games(100) or next_generation()
 - for computation heavy parts of the project use python -O main.py (-O or -OO)
   to prevent assertion and hopefully speed things up.
-- evaluate function may have to calculate a few moves, if there is at least one
-  move, then the player is not checkmated or a draw. A draw is good for a player
-  if he has fewer pieces.
 
 features that come with object restructure:
-- en passant, complicated may have to make chess board keep piece objects.
-  only valid the move after your opponent moved 2 squares forward
+- en passant may have to make chess board keep piece objects.
+  Rules of en passant: only valid the move after your opponent moved into
+  position. Pawn doesn't need state that says if it has moved because it will
+  be in the correct row if it hasn't moved.
 - castle, have to keep track of if king ever moved, or if rook ever moved
 
 cleaning up code:
-- flip player turn method? Its used quite a bit.
-- break apart is_square_attacked, its 120 lines long and easy to break apart
-- make chess piece class into a stub class that cant be called
-- rethink variable/method names
-- check to see if unit tests can be shortened or made easier to modify
 - clean up Board.is_attacking_king(flipped=True) ugly logic
 - clean up Board.is_being_attacked, had to do ugly thing with modifying state
   and the whole thing is redundant, should return after first is_attacked.
-  Ideally make it not have to modify state.
-- is_square_attacked is duct taped together modifying the state of the board
-- make moves into a set not a list, when removing moves that put king in danger, possible_moves - king_in_danger_moves
-  could take a long time with not much benefit
+  Ideally make it not have to modify state. In all its duct taped together.
+- flip player turn method? Its used quite a bit.
+- break apart is_square_attacked, its 120 lines long and easy to break apart
+- make chess piece class into a stub class that cant be called
+- rethink variable/method names, verify they're all easily understandable
+- check to see if some unit tests can be shortened or made easier to modify
+  with the use of helper functions.
 - remove things from board.py if possible, its very long
 
 edge cases to test:
 - kings helping with check-mate
-- castle body block
-- moving another piece which ends up putting your king in check
+- castle body block (pieces in the way or pieces attacking inbetween)
 - king cant take a piece if it puts him in check
+- moving another piece which ends up putting your king in check
 
 Things to consider:
 - should both ChessGame and ChessBoard have default board?
@@ -55,5 +55,13 @@ Things to consider:
   therefore, chess board should have default board and chess game decides who goes first
 - for board evaluation, should king be counted? Should it be 1000?
 - how to choose what type of AI in the client code
+  player2 = Computer("minimax") vs player2 = Computer(minimax=True)
 
 room for optimization:
+- every time a board is calculated, the pieces are all created and thrown away.
+  if possible keep all pieces on the board while changing 1-2 that changed from
+  that move. This may not matter since each board is a complete copy of another,
+  but it might be cleaner code to have piece objects.
+- score'ing could be calculated by removing the piece being taken in all cases
+  except for en passant which will remove a piece from another nearby square.
+  (castling should not change score).

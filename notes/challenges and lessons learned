@@ -7,13 +7,14 @@ chess game class
 - separate logic that used to be in main
 
 player class
-- goal was computer vs computer 1000 games
+- idea is it changes things for when player is a computer vs a person.
 
 organizing tests
-- changing board effected pieces and vice versa, so test runner best option
+- changing board effected pieces and vice versa, so test runner best option.
 
 imports were a pain in the butt
 - getting python packaging to work. It felt very inconsistent, sometimes
-  working on pycharm and sometimes on command prompt but not both.\
+  working on pycharm and sometimes on command prompt but not both. Should
+  default to making it work in command prompt because pycharm is less universal.
 - decided to put chess and tests into separate modules and import with
   from chess.board import ChessBoard

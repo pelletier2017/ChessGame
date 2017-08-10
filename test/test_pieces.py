@@ -1,7 +1,7 @@
 import unittest
 
 from chess.board import ChessBoard
-from chess.pieces import (Pawn, Rook, Queen, Bishop, Knight, King,
+from chess.pieces import (Pawn, Knight, Bishop, Rook, Queen, King,
                           P1_CHAR, P2_CHAR)
 
 

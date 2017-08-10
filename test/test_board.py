@@ -281,7 +281,6 @@ class TestHasNoMoves(unittest.TestCase):
     def test_player1_in_check_alternate(self):
         inpt_str = "1 k....... .Q...r.. .R...... ........ ........ ........ ........ .......K"
         board = ChessBoard(inpt_str)
-        print(board)
         self.assertFalse(board.has_no_moves())
 
     def test_normal_board(self):
