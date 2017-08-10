@@ -14,6 +14,8 @@ small features
   Official chess rules should cover how to call a draw.
 - write an optional condition for if we want it to print player's moves,
   by default it should be off. Default should be for normal player vs computer.
+- have a game return some kind of result for who won, # of turns, # of pieces at the 
+  end, snapshop of last board. Maybe a result object should be created and returned.
 
 large features
 - another class for series of games   some way to play 1000 games computer vs computer
