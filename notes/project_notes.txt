@@ -12,12 +12,11 @@ small features
   Official chess rules should cover how to call a draw.
 - have a game return some kind of result for who won, # of turns, # of pieces at the 
   end, snapshop of last board. Maybe a result object should be created and returned.
+- MatchResult and GameResult classes within respective files?
 - timer that ticks during game, maybe have it multi threaded (daemon?).
   Display may have to use curses library to not have to reprint everything.
 
 large features
-- another class for series of games   some way to play 1000 games computer vs computer
-  Tournament(player1, player2, 100) plays 100 games
 - simple interactive GUI with pygame or some other python library
 - As part of score evaluation, calculate # of pieces a player is attacking.
   This costs a lot of computation, but can be used for a good tie breaker for

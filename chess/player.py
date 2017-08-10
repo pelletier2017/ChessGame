@@ -3,16 +3,11 @@ import time
 
 
 class Player:
-    def __init__(self, name, pause=0.5):
+    def __init__(self, name):
         self._name = name
-        self._pause = pause
-        self._games_won = 0
 
     def __str__(self):
         return self._name
-
-    def increment_score(self):
-        self._games_won += 1
 
 
 class RandomComputer(Player):
@@ -24,7 +19,6 @@ class RandomComputer(Player):
         :return: string in form "a1 b2"
         """
         random_move = random.randrange(len(possible_moves))
-        time.sleep(self._pause)
         return possible_moves[random_move]
 
 
@@ -48,7 +42,6 @@ class MinimaxComputer(Player):
 
         random_move = random.randrange(len(best_moves))
 
-        time.sleep(self._pause)
         return best_moves[random_move]
 
 
