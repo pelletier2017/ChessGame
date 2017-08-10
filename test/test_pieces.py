@@ -1,5 +1,9 @@
 import unittest
 
+# required to make imports work
+import sys
+sys.path.append("../")
+
 from chess.board import ChessBoard
 from chess.pieces import (Pawn, Knight, Bishop, Rook, Queen, King,
                           P1_CHAR, P2_CHAR)
@@ -223,3 +227,6 @@ class TestKing(unittest.TestCase):
 
         self.assertEqual(board.get_square(*piece_loc), p1.get_char())
         self.assertEqual(p1.calc_moves(board), p1_expected)
+
+if __name__ == "__main__":
+    unittest.main()

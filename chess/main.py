@@ -1,5 +1,10 @@
-from chess import player
-from chess.game import ChessGame
+import player
+
+# required to make imports work properly
+import sys
+sys.path.append("../")
+
+from game import ChessGame
 
 
 def main():

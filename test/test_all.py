@@ -1,7 +1,7 @@
 from unittest import TestLoader, TextTestRunner, TestSuite
 
-from test import test_pieces
-from test import test_board
+import test_pieces
+import test_board
 
 """
 Import this file to run all tests

@@ -1,5 +1,3 @@
-import random
-
 from chess import helper
 from chess import pieces
 from chess.pieces import P1_CHAR, P2_CHAR

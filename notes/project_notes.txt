@@ -7,16 +7,21 @@ Things to remember
 # TODO
 - Work on extending minimax to do variable depth.
 
-features
+small features
 - optional parameter for print_board=True to be changed when you want to run
   games very quickly. Probably on the game class, maybe on the player class.
 - write a draw condition if both players cannot checkmate each other in X turns.
   Official chess rules should cover how to call a draw.
+- write an optional condition for if we want it to print player's moves,
+  by default it should be off. Default should be for normal player vs computer.
+
+large features
 - another class for series of games   some way to play 1000 games computer vs computer
   Tournament(player1, player2, 100) plays 100 games
 - As part of score evaluation, calculate # of pieces a player is attacking.
   This costs a lot of computation, but can be used for a good tie breaker for
-  equal score values.
+  equal score values. Maybe have this as a boolean optional argument as part of
+  player class. This way we can test if its better.
 - player class DNA/gene pool class that includes many players,
   it can have method called play_games(100) or next_generation()
 - for computation heavy parts of the project use python -O main.py (-O or -OO)

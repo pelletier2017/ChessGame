@@ -1,5 +1,9 @@
 import unittest
 
+# required to make imports work
+import sys
+sys.path.append("../")
+
 from chess.board import ChessBoard
 
 

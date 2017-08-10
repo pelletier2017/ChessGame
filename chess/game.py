@@ -1,6 +1,6 @@
 import random
 
-from chess.board import ChessBoard
+from board import ChessBoard
 
 
 DEFAULT_BOARD = "rnbkqbnr pppppppp ........ ........ ........ ........ PPPPPPPP RNBKQBNR"
