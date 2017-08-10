@@ -18,6 +18,8 @@ small features
 
 large features
 - simple interactive GUI with pygame or some other python library
+  also could do it with flask, html/css/bootstrap/js hosted on heroku
+  and make it play vs the AI!!
 - As part of score evaluation, calculate # of pieces a player is attacking.
   This costs a lot of computation, but can be used for a good tie breaker for
   equal score values. Maybe have this as a boolean optional argument as part of
