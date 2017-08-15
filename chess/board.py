@@ -4,12 +4,29 @@ from chess.pieces import P1_CHAR, P2_CHAR
 
 DEFAULT_BOARD = "1 rnbkqbnr pppppppp ........ ........ ........ ........ PPPPPPPP RNBKQBNR"
 
-piece_dict = {"p": pieces.Pawn,
-              "r": pieces.Rook,
-              "b": pieces.Bishop,
-              "q": pieces.Queen,
-              "n": pieces.Knight,
-              "k": pieces.King}
+piece_class_dict = {"p": pieces.Pawn,
+                    "r": pieces.Rook,
+                    "b": pieces.Bishop,
+                    "q": pieces.Queen,
+                    "n": pieces.Knight,
+                    "k": pieces.King}
+
+# unfortunately this doesn't print symbols to console
+# it remains unused
+"""
+piece_unicode_dict = {"p": u'\u2659',
+                      "r": u'\u2656',
+                      "b": u'\u2657',
+                      "q": u'\u2655',
+                      "n": u'\u2658',
+                      "k": u'\u2654',
+                      "P": u'\u265F',
+                      "R": u'\u265C',
+                      "B": u'\u265D',
+                      "Q": u'\u265B',
+                      "N": u'\u265E',
+                      "K": u'\u265A'}
+"""
 
 
 class ChessBoard:
@@ -29,7 +46,7 @@ class ChessBoard:
         for i in range(len(self._board) - 1, -1, -1):
             row = ""
             row += top_border
-            row += str(i + 1) ############################# change this to i - 1 for proper label
+            row += str(i + 1)
             for square in self._board[i]:
                 if square != ".":
                     row += " {} |".format(square)
@@ -45,13 +62,13 @@ class ChessBoard:
         bottom_border += "+"
         rows.append(bottom_border)
 
+        # debug bottom border
         # delete this eventually
         debug_border = ""
         for i in range(8):
             debug_border += "  {} ".format(i)
         debug_border += "\n"
         rows.append(debug_border)
-        #print(rows)
 
         return "\n".join(rows)
 
@@ -266,7 +283,7 @@ class ChessBoard:
 
                     # if piece can attack, make a piece object
                     if player_can_attack or comp_can_attack:
-                        piece_class = piece_dict[piece_char.lower()]
+                        piece_class = piece_class_dict[piece_char.lower()]
                         piece = piece_class(r, c, self._player_turn)
                         new_moves = piece.calc_moves(self)
 
@@ -307,7 +324,7 @@ class ChessBoard:
 
                     # if piece can attack, make a piece object
                     if player_can_attack or comp_can_attack:
-                        piece_class = piece_dict[piece_char.lower()]
+                        piece_class = piece_class_dict[piece_char.lower()]
                         piece = piece_class(r, c, self._player_turn)
                         new_moves = piece.calc_moves(self)
 
