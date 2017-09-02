@@ -1,4 +1,5 @@
 from unittest import TestLoader, TextTestRunner, TestSuite
+import sys
 
 import test_pieces
 import test_board
@@ -13,4 +14,6 @@ suite = TestSuite((
     loader.loadTestsFromModule(test_board)
     ))
 runner = TextTestRunner(verbosity=2)
-runner.run(suite)
+
+if not runner.run(suite).wasSuccessful():
+    sys.exit(1)
