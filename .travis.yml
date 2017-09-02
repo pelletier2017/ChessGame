@@ -7,4 +7,4 @@ install:
 
 script:
   - cd tests
-  - python tests/test_all.py
+  - python test_all.py
