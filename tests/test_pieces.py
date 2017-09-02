@@ -228,18 +228,6 @@ class TestKing(unittest.TestCase):
         self.assertEqual(board.get_square(*piece_loc), p1.get_char())
         self.assertEqual(p1.calc_moves(board), p1_expected)
 
-    def test_designed_to_fail(self):
-        inpt_str = "1 ........ .k..N... ........ .N.N.... ........ ........ ........ .......K"
-        board = ChessBoard(inpt_str)
-
-        piece_loc = (1, 1)
-        p1 = King(*piece_loc, P1_CHAR)
-        p1_expected = {'attacker': piece_loc,
-                       'defender': {(5, 0), (0, 0), (0, 1)}}
-
-        self.assertEqual(board.get_square(*piece_loc), p1.get_char())
-        self.assertEqual(p1.calc_moves(board), p1_expected)
-
 
 if __name__ == "__main__":
     unittest.main()
