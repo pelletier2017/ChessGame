@@ -109,7 +109,6 @@ class TestBishop(unittest.TestCase):
         inpt_str = "1 k....... ....b... ........ ..n..... .N.....b ........ ........ .......K"
         board = ChessBoard(inpt_str)
 
-
         piece_loc = (1, 4)
         p1 = Bishop(*piece_loc, P1_CHAR)
         p1_expected = {'attacker': piece_loc,
