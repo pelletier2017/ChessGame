@@ -1,1 +1,1 @@
-# ChessGame ![Alt text](https://travis-ci.org/pelletier2017/ChessGame.svg?branch=master)
+# ChessGame ![Alt text](https://travis-ci.org/pelletier2017/ChessGame.svg?branch=master) [![Coverage Status](https://coveralls.io/repos/github/pelletier2017/ChessGame/badge.svg?branch=master)](https://coveralls.io/github/pelletier2017/ChessGame?branch=master)
