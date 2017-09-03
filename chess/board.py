@@ -11,23 +11,6 @@ piece_class_dict = {"p": pieces.Pawn,
                     "n": pieces.Knight,
                     "k": pieces.King}
 
-# unfortunately this doesn't print symbols to console
-# it remains unused
-"""
-piece_unicode_dict = {"p": u'\u2659',
-                      "r": u'\u2656',
-                      "b": u'\u2657',
-                      "q": u'\u2655',
-                      "n": u'\u2658',
-                      "k": u'\u2654',
-                      "P": u'\u265F',
-                      "R": u'\u265C',
-                      "B": u'\u265D',
-                      "Q": u'\u265B',
-                      "N": u'\u265E',
-                      "K": u'\u265A'}
-"""
-
 
 class ChessBoard:
     def __init__(self, board=DEFAULT_BOARD):

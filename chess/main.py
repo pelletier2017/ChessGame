@@ -22,7 +22,7 @@ def play_tournament():
 def play_game():
     player1 = player.RandomComputer("random ai")
     player2 = player.MinimaxComputer("less dumb ai")
-    game = ChessGame(player1, player2, verbosity=2, pause=0.25)
+    game = ChessGame(player1, player2, verbosity=2, pause=0)
     game.play()
 
 if __name__ == "__main__":
