@@ -1,15 +1,15 @@
 language: python
 python:
- - 3.6
+ - "3.6"
 
 install:
   - pip install -r requirements.txt
+  - pip install tox-travis
 
 script:
+  - tox
   - cd tests
-  - python test_all.py
-  - cd ../chess
-  - coverage run main.py
+  - coverage test_all.py
 
 after_success:
   - pip install python-coveralls
