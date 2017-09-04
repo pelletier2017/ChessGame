@@ -25,6 +25,5 @@ def test_minimax():
     game.play()
 
 
-
 if __name__ == "__main__":
     main()
