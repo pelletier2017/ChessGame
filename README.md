@@ -44,15 +44,18 @@ $python test_all.py
 ```
 
 Travis CI will run tests automatically when changes are pushed to github.
-[https://travis-ci.org/pelletier2017/ChessGame](https://travis-ci.org/pelletier2017/ChessGame)
+
+[travis-ci.org/pelletier2017/ChessGame](https://travis-ci.org/pelletier2017/ChessGame)
 
 ### And coding style tests
 
 Landscape evaluates code quality including code style. Project goal is to stay above 95%.
-[https://landscape.io/github/pelletier2017/ChessGame](https://landscape.io/github/pelletier2017/ChessGame)
+
+[landscape.io/github/pelletier2017/ChessGame](https://landscape.io/github/pelletier2017/ChessGame)
 
 Coveralls evaluates code coverage. Project goal is to stay above 80%.
-[https://coveralls.io/github/pelletier2017/ChessGame](https://coveralls.io/github/pelletier2017/ChessGame)
+
+[coveralls.io/github/pelletier2017/ChessGame](https://coveralls.io/github/pelletier2017/ChessGame)
 
 ## Deployment
 
