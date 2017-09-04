@@ -7,7 +7,7 @@ from board import ChessBoard
 DEFAULT_BOARD = "rnbkqbnr pppppppp ........ ........ ........ ........ PPPPPPPP RNBKQBNR"
 
 
-class ChessGame:
+class ChessGame(object):
     """
     Class representing a chess game played from start to finish.
     :param player1/player2: Player objects
@@ -30,7 +30,6 @@ class ChessGame:
             self._first_move = first_move
 
         self._board = ChessBoard(str(self._first_move) + " " + board)
-
 
     def get_player1(self):
         """Returns player object set to player1."""

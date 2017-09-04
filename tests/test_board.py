@@ -168,19 +168,19 @@ class TestDoMove(unittest.TestCase):
         self.assertEqual(board4.get_square(2, 1), ".")
 
     def test_upgrading_pawn(self):
-        inpt_str = "1 q.p....k .P...P.. .R.K.... .......Q ........ ........ .......p ........"
+        inpt_str = "1 .......k P....... ...K.... ........ ........ ........ .......p ........"
         board = ChessBoard(inpt_str)
         self.assertEqual(board.get_square(6, 7), "p")
         self.assertEqual(board.get_square(7, 7), ".")
-        self.assertEqual(board.get_square(1, 5), "P")
+        self.assertEqual(board.get_square(1, 0), "P")
 
         board2 = board.do_move("h7 h8")
         self.assertEqual(board2.get_square(6, 7), ".")
         self.assertEqual(board2.get_square(7, 7), "q")
 
-        board3 = board2.do_move("f2 f1")
-        self.assertEqual(board3.get_square(1, 5), ".")
-        self.assertEqual(board3.get_square(0, 5), "Q")
+        board3 = board2.do_move("a2 a1")
+        self.assertEqual(board3.get_square(1, 0), ".")
+        self.assertEqual(board3.get_square(0, 0), "Q")
 
     def test_moving_off_board(self):
         inpt_str = "2 q.p....k .P...... .R.K.... .......Q ........ ........ ........ r......."
@@ -322,6 +322,17 @@ class TestGetPossibleBoards(unittest.TestCase):
 
         self.assertEqual(possible_boards, expected)
 
+
+class TestBoardEquality(unittest.TestCase):
+    def test_equality(self):
+        board1 = ChessBoard("1 k....... .P...... ...K.... .......Q ........ ........ ........ ........")
+        board2 = ChessBoard("1 k....... .P...... ...K.... .......Q ........ ........ ........ ........")
+        self.assertEqual(board1, board2)
+
+    def test_inequality(self):
+        board1 = ChessBoard("1 k....... .P...... ...K.... .......Q ........ ........ ........ ........")
+        board2 = ChessBoard("1 kr...... .P...... ...K.... .......Q ........ ........ ........ ........")
+        self.assertNotEqual(board1, board2)
 
 if __name__ == "__main__":
     unittest.main()

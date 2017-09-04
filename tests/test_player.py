@@ -7,16 +7,39 @@ import chess.player as player
 
 
 class TestBasicMinimax(unittest.TestCase):
-    def test_simple_board(self):
+    def test_1_step_checkmate(self):
         board = ChessBoard(
             "1 ........ ........ ........ ........ ........ .....pk. ......p. ......K.")
         p1 = player.BasicMinimax()
         possible_moves = board.calc_possible_moves()
 
-        actual = p1.choose_move(board, possible_moves, depth=3)
+        actual = p1.choose_move(board, possible_moves, depth=1)
         expected = "f6 f7"
 
         self.assertEqual(actual, expected)
+
+    def test_2_step_checkmate(self):
+        # chooses to checkmate in 2 moves instead of taking a queen
+        board = ChessBoard(
+            "1 k....... ........ r......Q ........ ........ ........ .....PPP B.....K.")
+        p1 = player.BasicMinimax()
+        possible_moves = board.calc_possible_moves()
+
+        actual = p1.choose_move(board, possible_moves, depth=3)
+        expected = "a3 a8"
+
+        self.assertEqual(actual, expected)
+
+
+class TestRandomChoice(unittest.TestCase):
+    def test_choice_in_moves(self):
+        board = ChessBoard(
+            "1 k....... ........ r......Q ........ ........ ........ .....PPP B.....K.")
+        p1 = player.RandomComputer()
+        possible_moves = board.calc_possible_moves()
+
+        random_move = p1.choose_move(board, possible_moves)
+        self.assertIn(random_move, possible_moves)
 
 if __name__ == "__main__":
     unittest.main()

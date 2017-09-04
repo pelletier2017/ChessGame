@@ -10,7 +10,7 @@ piece_class_dict = {"p": pieces.Pawn,
                     "k": pieces.King}
 
 
-class ChessBoard:
+class ChessBoard(object):
     def __init__(self, board):
         self._str_code = board
 
@@ -47,7 +47,7 @@ class ChessBoard:
 
         # debug bottom border
         # delete this eventually
-        debug_border = ""
+        debug_border = " "
         for i in range(8):
             debug_border += "  {} ".format(i)
         debug_border += "\n"

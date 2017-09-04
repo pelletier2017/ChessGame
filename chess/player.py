@@ -3,7 +3,7 @@ import random
 import time
 
 
-class Player:
+class Player(object):
     def __init__(self, name="No Name"):
         self._name = name
 
@@ -22,11 +22,10 @@ class RandomComputer(Player):
         :param possible_moves: list of strings representing moves
         :return: string in form "a1 b2"
         """
-        random_move = random.randrange(len(possible_moves))
-        return possible_moves[random_move]
+        return random.choice(possible_moves)
 
-############################################################################################# remove once finished
-class MinimaxComputer(Player):
+
+class OldMinimax(Player):
     def choose_move(self, board, possible_moves):
         """
         Chooses best move based on looking at list of moves and picking the best.
@@ -112,24 +111,3 @@ class Human(Player):
             time.sleep(2)
             player_choice = input("choose your move: ")
         return player_choice
-
-
-
-
-"""
-board = board.do_move(player_choice)
-
-# in check message
-print("Player 1 is in check")
-
-# draw message
-print("Game ended in a draw.")
-
-# check mated message
-print("Checkmate. You LOSE!")
-print("The unbeatable computer keeps his title.")
-
-# enemy check mated
-print("Checkmate. You WIN!")
-print("Congrats you beat the unbeatable AI!")
-"""
