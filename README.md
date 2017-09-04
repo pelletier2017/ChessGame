@@ -61,13 +61,8 @@ Coveralls evaluates code coverage. Project goal is to stay above 80%.
 
 [coveralls.io/github/pelletier2017/ChessGame](https://coveralls.io/github/pelletier2017/ChessGame)
 
-## Deployment
-
-No deployment implemented yet, will come with flask update
-
 ## Built With
 
-* [Flask](http://flask.pocoo.org/) - Web Framework
 * [Travis CI](https://travis-ci.org/) - Continuous Integration
 * [Coveralls](https://coveralls.io/) - Test Coverage
 
