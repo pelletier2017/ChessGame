@@ -36,11 +36,10 @@ $pip install -r requirements.txt
 
 ## Running the tests
 
-Run test runner here
+Tests are discovered using tox. It will take a while the first time to build virtual envs to run tests.
 
 ```
-$cd tests
-$python test_all.py
+$tox
 ```
 
 Travis CI will run tests automatically when changes are pushed to github.
