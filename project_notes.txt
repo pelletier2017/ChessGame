@@ -5,9 +5,9 @@ Things to remember
 - Pep8 style guide and currently use " " rather than ' '
 
 # TODO
-- Work on extending minimax to do variable depth.
-- TournamentResult and GameResult classes within respective files?
 - rebase? some of the commit history to make it simpler and remove dumb commits.
+- check to see if some unit tests can be shortened or made easier to modify
+  with the use of helper functions.
 
 small features
 - write a draw condition if both players cannot checkmate each other in X turns.
@@ -43,30 +43,21 @@ cleaning up code:
 - clean up Board.is_being_attacked, had to do ugly thing with modifying state
   and the whole thing is redundant, might return after first is_attacked?
   Ideally make it not have to modify state. In all its duct taped together.
-- think about what part of the code causes pain when adding features, this
-  could be too much cognitive load, tightly coupled things, badly organized all
-  examples of technical debt.
 - create flip player turn method? Its used quite a bit.
 - break apart is_square_attacked, its 120 lines long and easy to break apart
-- make chess piece class into a stub class that cant be called
 - rethink variable/method names, verify they're all easily understandable
 - check to see if some unit tests can be shortened or made easier to modify
   with the use of helper functions.
 - remove things from board.py if possible, its very long
 
 edge cases to test:
-- kings helping with check-mate
 - castle body block (pieces in the way or pieces attacking inbetween)
-- king cant take a piece if it puts him in check
-- moving another piece which ends up putting your king in check
 
 Choices to make:
 - should both ChessGame and ChessBoard have default board?
   board should be able to go to any state on the board,
   game should be playing a game where the person who goes first could be chosen
   therefore, chess board should have default board and chess game decides who goes first
-- how to choose what type of AI in the client code
-  player2 = Computer("minimax") vs player2 = Computer(minimax=True)
 
 room for optimization:
 - every time a board is calculated, the pieces are all created and thrown away.
@@ -75,4 +66,4 @@ room for optimization:
   but it might be cleaner code to have piece objects.
 - score'ing could be calculated by removing the piece being taken in all cases
   except for en passant which will remove a piece from another nearby square.
-  (castling should not change score).
+  (castling should not change score as it is calculated now).

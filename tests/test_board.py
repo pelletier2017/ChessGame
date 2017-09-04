@@ -186,7 +186,7 @@ class TestDoMove(unittest.TestCase):
         inpt_str = "2 q.p....k .P...... .R.K.... .......Q ........ ........ ........ r......."
         board = ChessBoard(inpt_str)
         try:
-            board2 = board.do_move("a8 a9")
+            self.assertboard2 = board.do_move("a8 a9")
             self.assert_(False)
         except AssertionError:
             pass
