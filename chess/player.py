@@ -15,24 +15,27 @@ class Player(object):
 
 
 class RandomComputer(Player):
-    def choose_move(self, board, possible_moves):
+    def choose_move(self, board):
         """
         Chooses a random move out of possible_moves
         :param board: board object
         :param possible_moves: list of strings representing moves
         :return: string in form "a1 b2"
         """
+        possible_moves = board.calc_possible_moves()
         return random.choice(possible_moves)
 
 
 class OldMinimax(Player):
-    def choose_move(self, board, possible_moves):
+    @staticmethod
+    def choose_move(board):
         """
         Chooses best move based on looking at list of moves and picking the best.
         :param board: board object
         :param possible_moves: list of strings representing moves
         :return: string in form "a1 b2"
         """
+        possible_moves = board.calc_possible_moves()
         best_score = board.do_move(possible_moves[0]).evaluate() * -1
         best_moves = [possible_moves[0]]
         for possible_move in possible_moves:
@@ -55,13 +58,14 @@ class OldMinimax(Player):
 
 
 class BasicMinimax(Player):
-    def choose_move(self, board, possible_moves, depth=2):
+    def choose_move(self, board, depth=2):
         """
         Chooses best move based on looking at list of moves and picking the best.
         :param board: board object
         :param possible_moves: list of strings representing moves
         :return: string in form "a1 b2"
         """
+        possible_moves = board.calc_possible_moves()
         move_score = {}
         for possible_move in possible_moves:
             new_board = board.do_move(possible_move)
@@ -96,7 +100,8 @@ class BasicMinimax(Player):
 
 
 class Human(Player):
-    def choose_move(self, board, possible_moves):
+    @staticmethod
+    def choose_move(board):
         """
         Asks the user for a move, if the move is not in the list of possible 
         moves then it asks the user for another move.
@@ -104,9 +109,10 @@ class Human(Player):
         :param possible_moves: list of strings representing moves
         :return: string in form "a1 b2"
         """
-        player_choice = input("choose your move: ")
-
-        while player_choice not in possible_moves:
+        possible_moves = board.calc_possible_moves()
+        while True:
+            if player_choice in possible_moves:
+                break
             print("Error cant make that move")
             time.sleep(2)
             player_choice = input("choose your move: ")

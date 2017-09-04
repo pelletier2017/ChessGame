@@ -13,7 +13,7 @@ class TestBasicMinimax(unittest.TestCase):
         p1 = player.BasicMinimax()
         possible_moves = board.calc_possible_moves()
 
-        actual = p1.choose_move(board, possible_moves, depth=1)
+        actual = p1.choose_move(board, depth=1)
         expected = "f6 f7"
 
         self.assertEqual(actual, expected)
@@ -25,7 +25,7 @@ class TestBasicMinimax(unittest.TestCase):
         p1 = player.BasicMinimax()
         possible_moves = board.calc_possible_moves()
 
-        actual = p1.choose_move(board, possible_moves, depth=3)
+        actual = p1.choose_move(board, depth=3)
         expected = "a3 a8"
 
         self.assertEqual(actual, expected)
@@ -38,7 +38,7 @@ class TestRandomChoice(unittest.TestCase):
         p1 = player.RandomComputer()
         possible_moves = board.calc_possible_moves()
 
-        random_move = p1.choose_move(board, possible_moves)
+        random_move = p1.choose_move(board)
         self.assertIn(random_move, possible_moves)
 
 if __name__ == "__main__":

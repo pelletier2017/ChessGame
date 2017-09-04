@@ -93,7 +93,7 @@ class ChessGame(object):
                 if is_in_check and self._verbosity > 1:
                     print("{} is in check".format(player))
 
-            board = board.do_move(player.choose_move(board, possible_moves))
+            board = board.do_move(player.choose_move(board))
             time.sleep(self._pause)
 
         result = {"winner": winner,
