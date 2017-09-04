@@ -4,14 +4,8 @@ import time
 
 
 class Player(object):
-    def __init__(self, name="No Name"):
-        self._name = name
-
-    def __str__(self):
-        return self._name
-
     def __repr__(self):
-        return "{}({})".format(self.__class__.__name__, self._name)
+        return "{}()".format(self.__class__.__name__)
 
 
 class RandomComputer(Player):

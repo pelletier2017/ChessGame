@@ -8,12 +8,12 @@ import chess.player as player
 
 class TestPlayer(unittest.TestCase):
     def test_repr(self):
-        p1 = player.Player("Jeff")
-        self.assertEqual("Player(Jeff)", repr(p1))
+        p1 = player.Player()
+        self.assertEqual("Player()", repr(p1))
 
     def test_minimax_repr(self):
-        p1 = player.BasicMinimax("Jeff")
-        self.assertEqual("BasicMinimax(Jeff)", repr(p1))
+        p1 = player.BasicMinimax()
+        self.assertEqual("BasicMinimax()", repr(p1))
 
 
 class TestBasicMinimax(unittest.TestCase):
