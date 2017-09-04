@@ -111,9 +111,10 @@ class Human(Player):
         """
         possible_moves = board.calc_possible_moves()
         while True:
+            player_choice = input("choose your move: ")
             if player_choice in possible_moves:
                 break
             print("Error cant make that move")
             time.sleep(2)
-            player_choice = input("choose your move: ")
+
         return player_choice

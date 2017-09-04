@@ -21,6 +21,7 @@ class ChessBoard(object):
         assert self.sanity_check()
 
     def __str__(self):
+        """Creates an ascii board for use in console"""
         # creating top border
         top_border = " " + ("+---" * 8) + "+\n"
 
@@ -56,12 +57,15 @@ class ChessBoard(object):
         return "\n".join(rows)
 
     def __repr__(self):
+        """str representation of board object"""
         return self._str_code
 
     def __eq__(self, other):
+        """Overloads == operator"""
         return repr(self) == repr(other)
 
     def __ne__(self, other):
+        """Overloads != operator"""
         return not(self.__eq__(other))
 
     def sanity_check(self):
