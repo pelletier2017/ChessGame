@@ -8,8 +8,6 @@ install:
 
 script:
   - tox
-  - cd tests
-  - coverage test_all.py
 
 after_success:
   - pip install python-coveralls

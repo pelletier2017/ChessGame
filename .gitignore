@@ -10,8 +10,10 @@ venv/
 # coveralls
 .coverage
 
-# eggs
-*.egg-info
-
 # tox
 .tox/
+
+# package files
+*.egg-info
+.pypirc
+dist/
