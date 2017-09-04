@@ -14,6 +14,18 @@ To work with project, clone repo using git.
 $git clone https://github.com/pelletier2017/ChessGame.git
 ```
 
+Example Usage
+
+```
+import chess.player as player
+from chess.game import ChessGame
+
+p1 = player.RandomComputer()
+p2 = player.BasicMinimax()
+game = ChessGame(p1, p2)
+game.play()
+```
+
 ### Prerequisites
 
 Dependencies are found in requirements.txt
@@ -27,8 +39,8 @@ $pip install -r requirements.txt
 Run test runner here
 
 ```
-cd tests
-python test_all.py
+$cd tests
+$python test_all.py
 ```
 
 Travis CI will run tests automatically when changes are pushed to github.
