@@ -1,7 +1,7 @@
 import random
 import time
 
-from board import ChessBoard
+from chess.board import ChessBoard
 
 
 DEFAULT_BOARD = "rnbkqbnr pppppppp ........ ........ ........ ........ PPPPPPPP RNBKQBNR"
