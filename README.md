@@ -63,9 +63,9 @@ No deployment implemented yet, will come with flask update
 
 ## Built With
 
-* [Flask](http://flask.pocoo.org/) - The web framework used
+* [Flask](http://flask.pocoo.org/) - Web Framework
 * [Travis CI](https://travis-ci.org/) - Continuous Integration
-* [Coveralls](https://coveralls.io/) - Used to test code coverage
+* [Coveralls](https://coveralls.io/) - Test Coverage
 
 ## Contributing
 
