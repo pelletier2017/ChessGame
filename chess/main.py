@@ -12,15 +12,15 @@ def main():
 
 
 def play_game():
-    player1 = player.RandomComputer("random ai")
-    player2 = player.OldMinimax("less dumb ai")
+    player1 = player.RandomComputer()
+    player2 = player.OldMinimax()
     game = ChessGame(player1, player2, verbosity=2, pause=0)
     game.play()
 
 
 def test_minimax():
-    player1 = player.OldMinimax("old minimax")
-    player2 = player.BasicMinimax("newer minimax")
+    player1 = player.OldMinimax()
+    player2 = player.BasicMinimax()
     game = ChessGame(player1, player2, verbosity=2, pause=0)
     game.play()
 
