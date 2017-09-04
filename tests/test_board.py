@@ -293,6 +293,34 @@ class TestHasNoMoves(unittest.TestCase):
         self.assertFalse(board.has_no_moves())
 
 
+class TestGetPossibleBoards(unittest.TestCase):
+    def test_player1_board(self):
+        board = ChessBoard("1 k....... ........ ........ ........ ........ ........ ........ .......K")
+        possible_boards = board.get_possible_boards()
+
+        expected = [ChessBoard("2 .k...... ........ ........ ........ ........ ........ ........ .......K"),
+                    ChessBoard("2 ........ k....... ........ ........ ........ ........ ........ .......K"),
+                    ChessBoard("2 ........ .k...... ........ ........ ........ ........ ........ .......K")]
+
+        self.assertEqual(possible_boards, expected)
+
+    def test_player2_board(self):
+        board = ChessBoard("2 k....... ........ ........ ........ ........ ........ ........ .......K")
+        possible_boards = board.get_possible_boards()
+
+        expected = [ChessBoard("1 k....... ........ ........ ........ ........ ........ ........ ......K."),
+                    ChessBoard("1 k....... ........ ........ ........ ........ ........ .......K ........"),
+                    ChessBoard("1 k....... ........ ........ ........ ........ ........ ......K. ........")]
+
+        self.assertEqual(possible_boards, expected)
+
+    def test_no_moves(self):
+        board = ChessBoard("1 kR...... .R...... ........ ........ ........ ........ ........ .......K")
+        possible_boards = board.get_possible_boards()
+
+        expected = []
+
+        self.assertEqual(possible_boards, expected)
 
 
 if __name__ == "__main__":

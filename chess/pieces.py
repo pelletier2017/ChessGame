@@ -93,7 +93,7 @@ class Pawn(ChessPiece):
         for i in (-1, 1):
             c2 = c1 + i
             if self.is_valid_attack(board, r2, c2) and board.get_square(r2, c2) != ".":
-                    moves["defender"].add((r2, c2))
+                moves["defender"].add((r2, c2))
 
         # pawn moving 1 upward
         r2 = r1 + (1 * direction)

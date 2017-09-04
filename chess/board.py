@@ -2,8 +2,6 @@ from chess import helper
 from chess import pieces
 from chess.pieces import P1_CHAR, P2_CHAR
 
-DEFAULT_BOARD = "1 rnbkqbnr pppppppp ........ ........ ........ ........ PPPPPPPP RNBKQBNR"
-
 piece_class_dict = {"p": pieces.Pawn,
                     "r": pieces.Rook,
                     "b": pieces.Bishop,
@@ -13,8 +11,10 @@ piece_class_dict = {"p": pieces.Pawn,
 
 
 class ChessBoard:
-    def __init__(self, board=DEFAULT_BOARD):
+    def __init__(self, board):
         self._str_code = board
+
+        assert len(board) == 73, "board was {} should have been {}".format(len(board), 73)
         self._player_turn = board[0]
         self._board = tuple(map(tuple, board[2:].split()))
 
@@ -22,14 +22,14 @@ class ChessBoard:
 
     def __str__(self):
         # creating top border
-        top_border = "+---" * 8 + "+\n"
+        top_border = " " + ("+---" * 8) + "+\n"
 
         rows = []
         # creating inner grid
         for i in range(len(self._board) - 1, -1, -1):
             row = ""
             row += top_border
-            row += str(i + 1)
+            row += str(i + 1) + "|"
             for square in self._board[i]:
                 if square != ".":
                     row += " {} |".format(square)
@@ -39,7 +39,7 @@ class ChessBoard:
 
         # create bottom border
         letters = "abcdefgh"
-        bottom_border = ""
+        bottom_border = " "
         for letter in letters:
             bottom_border += "+-{}-".format(letter)
         bottom_border += "+"
@@ -58,6 +58,12 @@ class ChessBoard:
     def __repr__(self):
         return self._str_code
 
+    def __eq__(self, other):
+        return repr(self) == repr(other)
+
+    def __ne__(self, other):
+        return not(self.__eq__(other))
+
     def sanity_check(self):
         """
         Goes through a series of asserts to verify the Board object is
@@ -66,8 +72,8 @@ class ChessBoard:
         """
         # checks if board is 8x8
         assert len(self._board) == 8, "board does not have 8 rows"
-        for row in self._board:
-            assert len(row) == 8, "a row does not have 8 entries"
+        for i in range(len(self._board)):
+            assert len(self._board[i]) == 8, "row {} has {} entries".format(i, len(self._board[i]))
 
         # checks player turn is "r" or "b"
         assert self._player_turn in (P1_CHAR, P2_CHAR), "player turn: {} error".format(
@@ -506,4 +512,13 @@ class ChessBoard:
         elif self._player_turn == P2_CHAR and self._board[row][col].islower():
             return True
         return False
+
+    def get_possible_boards(self):
+        """
+        Returns a list of all the possible boards created by doing any valid
+        move.
+        :return: list of board objects
+        """
+        possible_moves = self.calc_possible_moves()
+        return list(map(self.do_move, possible_moves))
 

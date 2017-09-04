@@ -17,7 +17,7 @@ class ChessGame:
     :param first_move: player to go first, int 1 or 2 or default=random
     """
     def __init__(self, player1, player2, verbosity=1, pause=0.5,
-                 board=DEFAULT_BOARD, first_move=None):
+                 first_move=None, board=DEFAULT_BOARD):
         self._player1 = player1
         self._player2 = player2
         self._verbosity = verbosity
@@ -30,6 +30,7 @@ class ChessGame:
             self._first_move = first_move
 
         self._board = ChessBoard(str(self._first_move) + " " + board)
+
 
     def get_player1(self):
         """Returns player object set to player1."""
