@@ -8,7 +8,12 @@ Library for running chess simulations. Allows customizable AI including random c
 
 ## Getting Started
 
-To work with project, clone repo using git.
+Install with pip
+```
+$pip install ChessGame
+```
+
+Or clone repo using git.
 
 ```
 $git clone https://github.com/pelletier2017/ChessGame.git
