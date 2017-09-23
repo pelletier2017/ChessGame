@@ -50,6 +50,11 @@ class ChessGame(object):
         return self._player1, self._player2
 
     @property
+    def player_turn(self):
+        """Returns current player's turn as integer 1 or 2"""
+        return int(self._board.get_player_turn())
+
+    @property
     def board(self):
         """Returns current chess board"""
         return self._board
@@ -83,6 +88,8 @@ class ChessGame(object):
 
     def do_move(self, move):
         self._board = self._board.do_move(move)
+        if self._verbosity > 0:
+            print(self._board)
 
     def play(self):
         """
@@ -93,7 +100,7 @@ class ChessGame(object):
         turn_number = 0
         while True:
             turn_number += 1
-            if self._verbosity > 1:
+            if self._verbosity > 0:
                 print(board)
 
             # sets player to current player's turn
@@ -119,12 +126,12 @@ class ChessGame(object):
                                                                turn_number))
                     winner = self.get_other_player(player)
                 else:
-                    if self._verbosity > 1:
+                    if self._verbosity > 0:
                         print("There was a draw!")
                     winner = None
                 break
             else:
-                if is_in_check and self._verbosity > 1:
+                if is_in_check and self._verbosity > 0:
                     print("{} is in check".format(player))
 
             board = board.do_move(player.choose_move(board))

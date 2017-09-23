@@ -11,15 +11,11 @@ def main():
 
 
 def play_game():
-    player1 = player.RandomComputer()
-    player2 = player.OldMinimax()
-    game = ChessGame(player1, player2, verbosity=2, first_move=1)
-    #print(game.board)
-    print(game)
-    game.do_move("a2 a3")
-    print(game)
-    print()
-    print(game.board)
+    p1 = player.RandomComputer()
+    p2 = player.BasicMinimax()
+    game = ChessGame(p1, p2)
+    game.play()
+
 
 
 if __name__ == "__main__":
