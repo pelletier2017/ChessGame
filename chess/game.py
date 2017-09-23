@@ -16,7 +16,7 @@ class ChessGame(object):
     :param board: starting board for the game
     :param first_move: player to go first, int 1 or 2 or default=random
     """
-    def __init__(self, player1, player2, verbosity=1, pause=0.5,
+    def __init__(self, player1, player2, verbosity=1, pause=0,
                  first_move=None, board=DEFAULT_BOARD):
         self._player1 = player1
         self._player2 = player2
@@ -31,17 +31,48 @@ class ChessGame(object):
 
         self._board = ChessBoard(str(self._first_move) + " " + board)
 
-    def get_player1(self):
+    def __str__(self):
+        return "Player1: {}\nPlayer2: {}\n{}".format(self._player1, self._player2, self._board)
+
+    @property
+    def player1(self):
         """Returns player object set to player1."""
         return self._player1
 
-    def get_player2(self):
+    @property
+    def player2(self):
         """Returns player object set to player2."""
         return self._player2
 
+    @property
+    def players(self):
+        """Returns a tuple of (player1, player2) objects."""
+        return self._player1, self._player2
+
+    @property
+    def board(self):
+        """Returns current chess board"""
+        return self._board
+
+    @property
+    def p1_pieces(self):
+        return self._board.get_pieces(player=1)
+
+    @property
+    def p2_pieces(self):
+        return self._board.get_pieces(player=2)
+
+    @property
+    def pieces(self):
+        return self._board.get_pieces()
+
+    @property
+    def possible_moves(self):
+        return self._board.calc_possible_moves()
+
     def get_other_player(self, player):
         """
-        Returns the opposite player object.
+        Returns the opposite player.
         :param player: a player object that is in the current game.
         """
         assert player in (self._player1, self._player2)
@@ -49,6 +80,9 @@ class ChessGame(object):
             return self._player2
         else:
             return self._player1
+
+    def do_move(self, move):
+        self._board = self._board.do_move(move)
 
     def play(self):
         """

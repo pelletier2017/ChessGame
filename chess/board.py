@@ -22,10 +22,18 @@ class ChessBoard(object):
 
     def __str__(self):
         """Creates an ascii board for use in console"""
+
+        rows = []
+        turn = "Current turn: "
+        if self._player_turn == "1":
+            turn += "Player 1 (bottom)"
+        else:
+            turn += "Player 2 (top)"
+        rows.append(turn)
+
         # creating top border
         top_border = " " + ("+---" * 8) + "+\n"
 
-        rows = []
         # creating inner grid
         for i in range(len(self._board) - 1, -1, -1):
             row = ""
@@ -67,6 +75,33 @@ class ChessBoard(object):
     def __ne__(self, other):
         """Overloads != operator"""
         return not(self.__eq__(other))
+
+    @property
+    def player_turn(self):
+        return self._player_turn
+
+    def get_pieces(self, player=None):
+        """
+        Returns a dict of piece characters mapped to the number on the board.
+        :param player: optional param int 1 for player1 or int 2 for player2
+        :return: pieces dict
+        """
+        assert player in (1, 2, None), \
+            "player is {} but must be in (1, 2, None)".format(player)
+        pieces_dict = {}
+        for row in self._board:
+            for char in row:
+                if player == 1 and not char.islower():
+                    continue
+                elif player == 2 and not char.isupper():
+                    continue
+
+                if char != ".":
+                    if char in pieces_dict:
+                        pieces_dict[char] += 1
+                    else:
+                        pieces_dict[char] = 1
+        return pieces_dict
 
     def sanity_check(self):
         """
