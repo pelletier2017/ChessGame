@@ -36,9 +36,9 @@ curr_player = game.player_turn
 player1_pieces = game.p1_pieces
 player2_pieces = game.p2_pieces
 all_pieces = game.pieces
+moves = game.possible_moves
 
 # performs moves in game
-p1_moves = game.possible_moves
 game.do_move("b2 b4")
 
 p2_moves = game.possible_moves
@@ -48,6 +48,9 @@ game.do_move("c7 c6")
 Example with two AI players
 
 ```
+import chess.player as player
+from chess.game import ChessGame
+
 p1 = player.RandomComputer()
 p2 = player.BasicMinimax()
 game = ChessGame(p1, p2)
