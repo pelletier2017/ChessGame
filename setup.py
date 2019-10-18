@@ -44,7 +44,7 @@ setup(
         "tox==2.8.0",
         "urllib3==1.22",
         "virtualenv==15.1.0",
-        "Werkzeug==0.12.2",
+        "Werkzeug==0.15.3",
         "WTForms==2.1"
     ]
 
