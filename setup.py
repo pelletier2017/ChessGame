@@ -17,7 +17,7 @@ setup(
         "chardet==3.0.4",
         "click==6.7",
         "coverage==4.0.3",
-        "Flask==0.12.2",
+        "Flask==1.0",
         "Flask-BabelEx==0.9.3",
         "Flask-Login==0.4.0",
         "Flask-Mail==0.9.1",
