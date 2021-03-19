@@ -27,7 +27,7 @@ setup(
         "Flask-WTF==0.14.2",
         "idna==2.6",
         "itsdangerous==0.24",
-        "Jinja2==2.9.6",
+        "Jinja2==2.11.3",
         "MarkupSafe==1.0",
         "passlib==1.7.1",
         "pluggy==0.5.1",
