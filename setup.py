@@ -36,7 +36,7 @@ setup(
         "pycparser==2.18",
         "python-coveralls==2.9.1",
         "pytz==2017.2",
-        "PyYAML==3.12",
+        "PyYAML==5.4",
         "requests==2.18.4",
         "six==1.10.0",
         "speaklater==1.3",
