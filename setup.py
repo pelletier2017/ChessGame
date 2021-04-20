@@ -32,7 +32,7 @@ setup(
         "passlib==1.7.1",
         "pluggy==0.5.1",
         "psycopg2==2.7.3",
-        "py==1.4.34",
+        "py==1.10.0",
         "pycparser==2.18",
         "python-coveralls==2.9.1",
         "pytz==2017.2",
