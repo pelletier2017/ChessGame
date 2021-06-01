@@ -42,7 +42,7 @@ setup(
         "speaklater==1.3",
         "SQLAlchemy==1.1.13",
         "tox==2.8.0",
-        "urllib3==1.22",
+        "urllib3==1.26.5",
         "virtualenv==15.1.0",
         "Werkzeug==0.12.2",
         "WTForms==2.1"
