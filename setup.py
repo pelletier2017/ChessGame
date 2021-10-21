@@ -9,7 +9,7 @@ setup(
     py_modules=["chess"],
 
     install_requires=[
-        "Babel==2.4.0",
+        "Babel==2.9.1",
         "bcrypt==3.1.3",
         "blinker==1.4",
         "certifi==2017.7.27.1",
