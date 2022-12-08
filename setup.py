@@ -12,7 +12,7 @@ setup(
         "Babel==2.4.0",
         "bcrypt==3.1.3",
         "blinker==1.4",
-        "certifi==2017.7.27.1",
+        "certifi==2022.12.7",
         "cffi==1.10.0",
         "chardet==3.0.4",
         "click==6.7",
